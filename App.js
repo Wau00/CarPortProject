@@ -1,20 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { lightColors, Card, Input, Button, SocialIcon, SocialIconProps } from '@rneui/themed';
+import SignupForm from './components/SignupForm';
+import Login from './pages/Login';
+import LoginForm from './components/LoginForm';
+
 
 export default function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }} >
+        <LoginForm/>
+      </View >
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
