@@ -1,9 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { lightColors, Card, Input, Button, SocialIcon, SocialIconProps } from '@rneui/themed';
+import { useNavigation } from '@react-navigation/native';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { Card, Input, Button, } from '@rneui/themed';
+import { useState } from 'react';
 
 
-export default function LoginForm({ switchForm }) {
+
+
+export default function LoginForm({ navigation }) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+
+    const handleSignup = () => {
+        auth
+            .createUserwithEmailandPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log(user.email)
+            })
+            .catch(error => alert(error.message))
+    }
+
+    const handleLogin = () => {
+        auth
+            .createUserwithEmailandPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log(user.email)
+            })
+            .catch(error => alert(error.message))
+    }
+
 
     return (
         <>
@@ -12,9 +39,13 @@ export default function LoginForm({ switchForm }) {
                     <Card.Title style={{ fontSize: '30px' }}>CARPORT</Card.Title>
                     <Card.Divider />
                     <Text>Email</Text>
-                    <Input placeholder="Email" secureTextEntry={false} />
+                    <Input placeholder="Email" secureTextEntry={false}
+                        value={email}
+                        onChangeText={text => setEmail(text)} />
                     <Text>Password</Text>
-                    <Input placeholder="Password" secureTextEntry={true} />
+                    <Input placeholder="Password" secureTextEntry={true}
+                        value={password}
+                        onChangeText={text => setPassword(text)} />
                     <Button
                         title="Log in"
                         loading={false}
@@ -30,13 +61,14 @@ export default function LoginForm({ switchForm }) {
                             width: 200,
                             marginVertical: 10,
                         }}
-                        onPress={() => console.log('Hello There!')}
+                        onPress={handleLogin}
                     />
                     <Card.Title onPress={() => console.log('Forget Password!')}> Forgot Password? </Card.Title>
                     <Card.Divider />
-                    <Text style={{ textAlign: 'center' }}>Need an account? <Text onPress={() => console.log('SignUp!')} style={{ color: 'red' }}>SIGN UP</Text></Text>
+                    <Text style={{ textAlign: 'center' }}>Need an account? <Text onPress={() => navigation.push('SignupForm')} style={{ color: 'red' }}>SIGN UP</Text></Text>
                 </Card>
             </View >
+
         </>
     );
 }

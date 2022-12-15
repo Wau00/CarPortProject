@@ -1,19 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { lightColors, Card, Input, Button, SocialIcon, SocialIconProps } from '@rneui/themed';
-import SignupForm from './components/SignupForm';
-import Login from './pages/Login';
-import LoginForm from './components/LoginForm';
 
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
 
   return (
-    <>
-      <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }} >
-        <LoginForm/>
-      </View >
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen options={{ headerShown: false }} name="LoginForm" component={LoginForm} />
+        <Stack.Screen name="SignupForm" options={{ title: "" }} component={SignupForm} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

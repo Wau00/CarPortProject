@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import LoginForm from '../components/LoginForm';
-import SignupForm from '../components/SignupForm';
+import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import LoginForm from '../components/LoginForm'
+import SignupForm from '../components/SignupForm'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function Login() {
+const Tab = createNativeStackNavigator();
 
-    const [loginComp, setLoginComp] = useState(true);
-
-    const renderForm = () => {
-        if (loginComp) {
-            return <LoginForm switchForm={setLoginComp} />
-        }
-        else {
-            return <SignupForm switchForm={setLoginComp} />
-        }
-    }
-
+const Login = () => {
     return (
-        <View>
-            {renderForm()}
-        </View>
+
+
+        <Tab.Navigator>
+            <Tab.Screen options={{ headerShown: false }} name="LoginForm" component={LoginForm} />
+            <Tab.Screen options={{ headerShown: false }} name="SignupForm" component={SignupForm} />
+        </Tab.Navigator>
+
+
     )
 }
+
+export default Login
+
+const styles = StyleSheet.create({})
