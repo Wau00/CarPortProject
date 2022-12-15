@@ -1,7 +1,10 @@
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { signInwithEmailandPassword } from 'firebase/auth';
+import { auth } from '../config/firebase';
+import { Text, View, KeyboardAvoidingView, Alert } from 'react-native';
 import { Card, Input, Button, } from '@rneui/themed';
-import { useState } from 'react';
+
 
 
 
@@ -11,24 +14,12 @@ export default function LoginForm({ navigation }) {
     const [password, setPassword] = useState('');
 
 
-    const handleSignup = () => {
-        auth
-            .createUserwithEmailandPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log(user.email)
-            })
-            .catch(error => alert(error.message))
-    }
-
     const handleLogin = () => {
-        auth
-            .createUserwithEmailandPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log(user.email)
-            })
-            .catch(error => alert(error.message))
+        if (email !== "" && password !== "") {
+            signInwithEmailandPassword(auth, email, password)
+                .then(() => console.log('Login Success!'))
+                .catch((err) => Alert.alert('Login Error!', err.message))
+        }
     }
 
 
