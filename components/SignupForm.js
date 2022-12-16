@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, } from 'react-native';
 import { lightColors, Card, Input, Button, SocialIcon, SocialIconProps } from '@rneui/themed';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../config/firebase';
 import { Formik, Field, Form } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 
@@ -14,16 +16,13 @@ export default function SignupForm() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
-    // const handleSignup = () => {
-    //     auth
-    //         .createUserwithEmailandPassword(email, password)
-    //         .then(userCredentials => {
-    //             const user = userCredentials.user;
-    //             console.log(user.email)
-    //         })
-    //         .catch(error => alert(error.message))
-    // }
-
+    const handleSignup = () => {
+        if (email !== "" && password !== "") {
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(() => console.log('Signup Success!'))
+                .catch((err) => alert(err))
+        }
+    }
     return (
         <>
 
@@ -67,8 +66,9 @@ export default function SignupForm() {
                             width: 200,
                             marginVertical: 10,
                         }}
-                        onPress={console.log(firstName, lastName, password, email)}
+                        onPress={handleSignup}
                     />
+                    <Text style={{ textAlign: 'center' }}>Already have an account? <Text onPress={() => navigation.push('LoginForm')} style={{ color: 'red' }}>LOG IN</Text></Text>
                     <Card.Divider />
                 </Card>
             </View>
