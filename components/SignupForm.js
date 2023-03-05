@@ -13,10 +13,15 @@ export default function SignupForm() {
     const navigation = useNavigation()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [repeatPassword, setPasswordd] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     const handleSignup = () => {
+        if (password !== repeatPassword) {
+            window.alert("Passwords must match!")
+        };
+
         if (email !== "" && password !== "") {
             createUserWithEmailAndPassword(auth, email, password)
                 .then(() => console.log('Signup Success!'))
@@ -33,24 +38,26 @@ export default function SignupForm() {
                     <Text>First Name</Text>
                     <Input placeholder="First Name"
                         secureTextEntry={false}
-                        value={firstName}
-                        onChangeText={text => setFirstName(text)}
-                    />
-                    <Text>Last Name</Text>
-                    <Input placeholder="Last Name" secureTextEntry={false}
-                        onChangeText={text => setLastName(text)}
-                        value={lastName}
+                        value={fullName}
+                        onChangeText={text => setFullName(text)}
                     />
                     <Text>Email</Text>
-                    <Input placeholder="Email" secureTextEntry={false}
+                    <Input placeholder="mail@carport.com" secureTextEntry={false}
                         onChangeText={text => setEmail(text)}
                         value={email} />
+                    <Text>Phone Number</Text>
+                    <Input placeholder="+1 (000) 000-000" secureTextEntry={false}
+                        onChangeText={text => setPhoneNumber(text)}
+                        value={phoneNumber} />
                     <Text>Password</Text>
                     <Input placeholder="Password" secureTextEntry={true}
                         onChangeText={text => setPassword(text)}
                         value={password} />
                     <Text>Repeat Password</Text>
-                    <Input placeholder="Repeat Password" secureTextEntry={true} />
+                    <Input placeholder="Repeat Password"
+                        secureTextEntry={true}
+                        onChangeText={text => setPasswordd(text)}
+                        value={repeatPassword} />
                     <Button
                         title="Sign Up"
                         loading={false}
