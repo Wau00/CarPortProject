@@ -5,33 +5,24 @@ import React from 'react'
 
 const Home = () => {
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            return (
-                <View>
-                    <Text>Home</Text>
-                </View>
-            )
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
-            const uid = user.uid;
-            // ...Mai
-        } else {
-            // User is signed out
-            // ...
-        }
-    });
+    const navigation = useNavigation();
+    return (
 
-
-
-
-
-
-
-
-
+        <Text>
+            Hello World
+        </Text>
+    )
 }
+
+
+
+
+
+
+
+
+
+
 
 export default Home
 
