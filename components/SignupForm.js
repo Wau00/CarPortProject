@@ -11,7 +11,9 @@ import { useNavigation } from '@react-navigation/native';
 export default function SignupForm() {
 
 
-    const auth = getAuth();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
     const navigation = useNavigation()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

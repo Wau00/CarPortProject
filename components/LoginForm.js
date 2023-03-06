@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../config/firebase';
+import { auth, firebaseConfig } from '../config/firebase';
 import { Text, View, KeyboardAvoidingView, Alert } from 'react-native';
 import { Card, Input, Button, } from '@rneui/themed';
+import { initializeApp } from 'firebase/app';
 
 
 
 
 
-export default function LoginForm({ navigation }) {
+export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const auth = getAuth();
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
     const handleLogin = () => {
         if (email !== "" && password !== "") {
