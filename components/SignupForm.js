@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, } from 'react-native';
-import { lightColors, Card, Input, Button, SocialIcon, SocialIconProps } from '@rneui/themed';
+import { Text, View } from 'react-native';
+import { Card, Input, Button } from '@rneui/themed';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-// import { auth } from '../config/firebase';
-import { Formik, Field, Form } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 
 

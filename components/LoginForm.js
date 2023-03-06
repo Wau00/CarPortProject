@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { auth, firebaseConfig } from '../config/firebase';
-import { Text, View, KeyboardAvoidingView, Alert } from 'react-native';
+import { firebaseConfig } from '../config/firebase';
+import { Text, View, Alert } from 'react-native';
 import { Card, Input, Button, } from '@rneui/themed';
 import { initializeApp } from 'firebase/app';
 

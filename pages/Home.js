@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from 'react-native'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 
