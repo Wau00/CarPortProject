@@ -19,19 +19,25 @@ export default function Add() {
 
     const addCar = async () => {
 
-        await addDoc(collection(db, "vehicles"), {
-            color: color,
-            licensePlate: licensePlate,
-            make: make,
-            model: model,
-            tagNumber: tagNumber,
-            timeStamp: serverTimestamp(),
+        if (tagNumber !== "" && licensePlate !== "" && make !== "" && model !== "" && color !== "") {
+            if (tagNumber != int) {
+                window.alert("Please enter a Valid Tag Number")
+            }
+            await addDoc(collection(db, "vehicles"), {
+                color: color,
+                licensePlate: licensePlate,
+                make: make,
+                model: model,
+                tagNumber: tagNumber,
+                timeStamp: serverTimestamp(),
 
-        }).then(() => console.log('Data Submitted!'))
-            .catch((err) => alert(err))
+            }).then(() => console.log('Data Submitted!'))
+                .catch((err) => alert(err))
 
-        navigation.goBack();
-
+            navigation.goBack();
+        } else {
+            window.alert("Please complete all fields")
+        }
     }
     return (
         <View style={styles.container}>
