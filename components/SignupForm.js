@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { Card, Input, Button } from '@rneui/themed';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
-import { collection, doc, setDoc, addDoc, serverTimestamp } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../config/firebase"
 
 
@@ -11,9 +10,6 @@ import { db, auth } from "../config/firebase"
 
 export default function SignupForm() {
 
-
-    // const app = initializeApp(firebaseConfig);
-    // const auth = getAuth(app);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -25,7 +21,7 @@ export default function SignupForm() {
 
 
 
-    const handleSignup = () => {
+    const handleSignup = async () => {
         if (password !== repeatPassword) {
             window.alert("Passwords must match!")
         };
@@ -36,7 +32,7 @@ export default function SignupForm() {
                 .catch((err) => alert(err))
         }
 
-        addDoc(collection(db, "users"), {
+        await addDoc(collection(db, "users"), {
             firstName: firstName,
             lastName: lastName,
             email: email,
