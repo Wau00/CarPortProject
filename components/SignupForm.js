@@ -3,21 +3,27 @@ import { Text, View } from 'react-native';
 import { Card, Input, Button } from '@rneui/themed';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import { collection, doc, setDoc, addDoc, serverTimestamp } from "firebase/firestore";
+import { db, auth } from "../config/firebase"
+
 
 
 
 export default function SignupForm() {
 
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    // const app = initializeApp(firebaseConfig);
+    // const auth = getAuth(app);
 
-    const navigation = useNavigation()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setPasswordd] = useState('');
-    const [fullName, setFullName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+
+
+
 
     const handleSignup = () => {
         if (password !== repeatPassword) {
@@ -29,6 +35,17 @@ export default function SignupForm() {
                 .then(() => console.log('Signup Success!'))
                 .catch((err) => alert(err))
         }
+
+        addDoc(collection(db, "users"), {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phoneNumber: phoneNumber,
+            timeStamp: serverTimestamp(),
+
+        }).then(() => console.log('Data Submitted!'))
+            .catch((err) => alert(err))
+
     }
     return (
         <>
@@ -40,8 +57,14 @@ export default function SignupForm() {
                     <Text>First Name</Text>
                     <Input placeholder="First Name"
                         secureTextEntry={false}
-                        value={fullName}
-                        onChangeText={text => setFullName(text)}
+                        value={firstName}
+                        onChangeText={text => setFirstName(text)}
+                    />
+                    <Text>Last Name</Text>
+                    <Input placeholder="First Name"
+                        secureTextEntry={false}
+                        value={lastName}
+                        onChangeText={text => setLastName(text)}
                     />
                     <Text>Email</Text>
                     <Input placeholder="mail@carport.com" secureTextEntry={false}

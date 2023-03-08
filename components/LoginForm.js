@@ -4,6 +4,7 @@ import { firebaseConfig } from '../config/firebase';
 import { Text, View, Alert } from 'react-native';
 import { Card, Input, Button, } from '@rneui/themed';
 import { initializeApp } from 'firebase/app';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -12,6 +13,7 @@ import { initializeApp } from 'firebase/app';
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigation()
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
