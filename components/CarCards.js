@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, Alert } from 'react-native';
-import { Card, Input, Button, } from '@rneui/themed';
+import { Card, Button, } from '@rneui/themed';
 import { db } from "../config/firebase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 
@@ -32,6 +32,7 @@ export default function CarCards({
 
     )
 }
+
 
 
 

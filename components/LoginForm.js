@@ -44,9 +44,9 @@ export default function LoginForm() {
                     <Button
                         title="Log in"
                         loading={false}
-                        loadingProps={{ size: 'small', color: 'white' }}
+                        loadingProps={{ size: 'small', color: '#171717' }}
                         buttonStyle={{
-                            backgroundColor: 'rgba(111, 202, 186, 1)',
+                            backgroundColor: '#EA580C',
                             borderRadius: 5,
                         }}
                         titleStyle={{ fontWeight: 'bold', fontSize: 23 }}

@@ -34,7 +34,7 @@ export default function SignupForm() {
                 .catch((err) => alert(err))
         }
 
-        await addDoc(collection(db, "users"), {
+        await addDoc(collection(db, "Users"), {
             firstName: firstName,
             lastName: lastName,
             email: email,
@@ -84,9 +84,9 @@ export default function SignupForm() {
                     <Button
                         title="Sign Up"
                         loading={false}
-                        loadingProps={{ size: 'small', color: 'white' }}
+                        loadingProps={{ size: 'small', color: '#171717' }}
                         buttonStyle={{
-                            backgroundColor: 'rgba(111, 202, 186, 1)',
+                            backgroundColor: '#EA580C',
                             borderRadius: 5,
                         }}
                         titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
