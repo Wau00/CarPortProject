@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet, TextInput } from "react-native"
+import { View, Text, StyleSheet, Select, } from "react-native"
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Card, Input, Button } from '@rneui/themed';
@@ -20,7 +20,7 @@ export default function Add() {
     const addCar = async () => {
 
         if (tagNumber !== "" && licensePlate !== "" && make !== "" && model !== "" && color !== "") {
-            if (tagNumber != int) {
+            if (tagNumber >= '0' && tagNumber <= '9') {
                 window.alert("Please enter a Valid Tag Number")
             }
             await addDoc(collection(db, "vehicles"), {

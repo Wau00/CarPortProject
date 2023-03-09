@@ -4,7 +4,7 @@ import { Card, Input, Button } from '@rneui/themed';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../config/firebase"
-
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -17,6 +17,8 @@ export default function SignupForm() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+
+    const navigation = useNavigation()
 
 
 
