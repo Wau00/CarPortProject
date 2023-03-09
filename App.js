@@ -74,6 +74,7 @@ function RootNavigator() {
 
 
 export default function App() {
+  console.log();
   return (
     <AuthUserProvider>
       <RootNavigator />

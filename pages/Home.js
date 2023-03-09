@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet, View, } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { collection, getDocs, onSnapshot, orderBy, query, querySnapshot, } from "firebase/firestore";
 import { db } from '../config/firebase';
 import CarCards from '../components/CarCards';
-import LoginForm from '../components/LoginForm';
+import { Text, Button, } from '@rneui/themed';
 
 const Home = () => {
     const [data, setData] = useState([]);
@@ -35,7 +35,7 @@ const Home = () => {
 
 
     useEffect(() => {
-        const collectionRef = collection(db, 'users');
+        const collectionRef = collection(db, 'Users');
         const q = query(collectionRef)
 
         const unsubscribe = onSnapshot(q, querySnapshot => {
@@ -51,29 +51,34 @@ const Home = () => {
         return unsubscribe;
     }, [])
 
+
+    function HomeInfo({ firstName, phoneNumber }) {
+        return (
+            <Text> Hello {firstName} !</Text>
+
+
+        )
+    }
     console.log(data);
+
 
 
 
     return (
 
-        <View>
-            <Text>Hello {data.firstName}</Text>
+        <View style={styles.con}>
+            {data.map(data => <HomeInfo key={data.id} {...data} />)}
+            <Text>{data.firstName}</Text>
             {cars.map(car => <CarCards key={car.id} {...car} />)}
-            <Button title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
+            <Button
+
+                buttonStyle={{
+                    backgroundColor: '#EA580C',
+                    borderRadius: 5,
+                }} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
         </View>
     )
 }
-
-
-
-
-
-
-
-
-
-
 
 export default Home
 
