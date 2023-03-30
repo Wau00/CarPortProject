@@ -1,10 +1,6 @@
 import React from "react";
-import { Text, View, Alert } from 'react-native';
-import { Card, Button, } from '@rneui/themed';
-import { db } from "../config/firebase";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-
-
+import { Text, View } from 'react-native';
+import { Card } from '@rneui/themed';
 
 export default function CarCards({
     id,
@@ -16,18 +12,21 @@ export default function CarCards({
 }) {
     return (
 
-        <Card>
-            <Button>---------------------------------</Button>
-            <View>
-                <Text>{model}</Text>
-                <Text>{make}</Text>
-                <Text>{tagNumber}</Text>
-                <Text>{licensePlate}</Text>
-                <Text>{color}</Text>
-            </View>
-            <Button>---------------------------------</Button>
-
-        </Card>
+        <View>
+            <View style={{ backgroundColor: '#e8e4e4' }}>
+                <Card.Divider />
+                <Text> <Text style={{ fontWeight: '800' }}> Make: </Text> {make}</Text>
+                <View style={{ flex: 'row' }}>
+                    <Card.Divider />
+                    <Text> <Text style={{ fontWeight: '800' }}> Model: </Text> {model}</Text>
+                    <Card.Divider />
+                    <Text> <Text style={{ fontWeight: '800' }}> Tag Number: </Text> {tagNumber}</Text>
+                    {/* <Text>{licensePlate}</Text> */}
+                    <Card.Divider />
+                    <Text> <Text style={{ fontWeight: '800' }}> Color: </Text> {color}</Text>
+                </View>
+            </View >
+        </View>
 
 
     )

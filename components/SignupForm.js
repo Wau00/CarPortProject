@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import { Card, Input, Button } from '@rneui/themed';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc } from "firebase/firestore";
 import { db, auth } from "../config/firebase"
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,31 +20,56 @@ export default function SignupForm() {
 
     const navigation = useNavigation()
 
+    // Get a reference to the users collection
+    // const usersRef = collection(db, "Users");
+
+    // const handleSignup = async () => {
+    // if (password !== repeatPassword) {
+    //     window.alert("Passwords must match!")
+    // };
+
+    // if (email !== "" && password !== "") {
+    //     createUserWithEmailAndPassword(auth, email, password)
+    //         .then(() => console.log('Signup Success!'))
+    //         .catch((err) => alert(err))
+    // }
+    // // const { uid } = userCredential.user
+    // await setDoc((doc(db, "Users", "Cities")), {
+    //     firstName: firstName,
+    //     lastName: lastName,
+    //     email: email,
+    //     phoneNumber: phoneNumber,
+    //     timeStamp: serverTimestamp(),
+
+    // }).then(() => console.log('Data Submitted!'))
+    //     .catch((err) => alert(err))
 
 
 
     const handleSignup = async () => {
-        if (password !== repeatPassword) {
-            window.alert("Passwords must match!")
-        };
+        try {
 
-        if (email !== "" && password !== "") {
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => console.log('Signup Success!'))
-                .catch((err) => alert(err))
+            // Create user in Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Create document in Firestore with user UID as document ID
+            const userData = {
+                email: email,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phoneNumber: phoneNumber,
+                timeStamp: serverTimestamp(),
+                // Add any other user data you want to store in Firestore here
+            };
+            await setDoc(doc(db, 'Users', user.uid), userData);
+
+            console.log('Success', 'User registered successfully!');
+        } catch (error) {
+            console.log('Error', error.message);
         }
-
-        await addDoc(collection(db, "Users"), {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phoneNumber: phoneNumber,
-            timeStamp: serverTimestamp(),
-
-        }).then(() => console.log('Data Submitted!'))
-            .catch((err) => alert(err))
-
-    }
+    };
     return (
         <>
 

@@ -2,19 +2,15 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { firebaseConfig } from './config/firebase'
-import { getAuth } from "firebase/auth";
+import { auth } from './config/firebase'
 import Home from './pages/Home';
 import Login from './pages/Login';
 import { onAuthStateChanged } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
 import Add from './pages/Add';
 
 const Stack = createNativeStackNavigator();
 const AuthUserContext = createContext();
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 const AuthUserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -74,7 +70,6 @@ function RootNavigator() {
 
 
 export default function App() {
-  console.log();
   return (
     <AuthUserProvider>
       <RootNavigator />

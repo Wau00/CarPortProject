@@ -1,80 +1,76 @@
-import { StyleSheet, View, } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
-import React, { useEffect, useState } from 'react'
-import { collection, getDocs, onSnapshot, orderBy, query, querySnapshot, } from "firebase/firestore";
-import { db } from '../config/firebase';
-import CarCards from '../components/CarCards';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+import { collection, doc, query, where, onSnapshot } from 'firebase/firestore';
 import { Text, Button, } from '@rneui/themed';
+import { db, auth } from '../config/firebase';
+import CarCards from '../components/CarCards';
+
 
 const Home = () => {
     const [data, setData] = useState([]);
     const [cars, setCars] = useState([]);
+    const userAuth = auth.currentUser.uid;
     const navigation = useNavigation();
-
+   
+   
     useEffect(() => {
-        const collectionRef = collection(db, 'vehicles');
-        const q = query(collectionRef, orderBy('tagNumber', 'desc'))
+        const usersCollectionRef = collection(db, 'Users');
+        const userDocRef = doc(usersCollectionRef, userAuth);
+        const carsCollectionRef = collection(userDocRef, 'cars');
 
+        const q = query(carsCollectionRef);
         const unsubscribe = onSnapshot(q, querySnapshot => {
             setCars(
                 querySnapshot.docs.map(doc => ({
                     id: doc.id,
-                    model: doc.data().model,
-                    make: doc.data().make,
-                    tagNumber: doc.data().tagNumber,
-                    licensePlate: doc.data().licensePlate,
-                    color: doc.data().color
+                    ...doc.data(),
                 }))
             )
         })
         return unsubscribe;
-
-
-    }, [])
-
-
+    }, []);
 
     useEffect(() => {
-        const collectionRef = collection(db, 'Users');
-        const q = query(collectionRef)
-
+        const userRef = collection(db, 'Users');
+        // '__name__',  is a query that filters documents where the document ID is equal to the given value. 
+        const q = query(userRef, where('__name__', '==', userAuth));
         const unsubscribe = onSnapshot(q, querySnapshot => {
             setData(
                 querySnapshot.docs.map(doc => ({
                     id: doc.id,
-                    firstName: doc.data().firstName,
-                    phoneNumber: doc.data().phoneNumber,
+                    ...doc.data(),
                 }))
             )
-
         })
         return unsubscribe;
     }, [])
 
 
-    function HomeInfo({ firstName, phoneNumber }) {
+    function HomeInfo({ firstName, phoneNumber, lastName }) {
         return (
-            <Text> Hello {firstName} !</Text>
-
-
+            <>
+                <View style={{}}>
+                    <Text style={{ fontWeight: '300', fontSize: '14' }}> Welcome back </Text>
+                    <Text style={{ fontWeight: '500', fontSize: '17' }}> {firstName} {lastName}</Text>
+                </View>
+            </>
         )
     }
-    console.log(data);
-
 
 
 
     return (
-
-        <View style={styles.con}>
+        <View style={{ flex: 1, padding: 20, }}>
             {data.map(data => <HomeInfo key={data.id} {...data} />)}
             <Text>{data.firstName}</Text>
+            <Text style={{ fontSize: '25', fontWeight: '700' }}> Select your car </Text>
             {cars.map(car => <CarCards key={car.id} {...car} />)}
             <Button
-
                 buttonStyle={{
                     backgroundColor: '#EA580C',
                     borderRadius: 5,
+                    margin: 15,
                 }} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
         </View>
     )

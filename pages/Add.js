@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Select, } from "react-native"
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Card, Input, Button } from '@rneui/themed';
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, where } from "firebase/firestore";
 import { db, auth } from "../config/firebase"
 
 
@@ -15,30 +15,39 @@ export default function Add() {
     const [make, setMake] = useState('');
     const [model, setModel] = useState('');
     const [color, setColor] = useState('');
+    const userAuth = auth.currentUser.uid;
 
 
     const addCar = async () => {
-
-        if (tagNumber !== "" && licensePlate !== "" && make !== "" && model !== "" && color !== "") {
-            if (tagNumber >= '0' && tagNumber <= '9') {
-                window.alert("Please enter a Valid Tag Number")
+        const parentCollectionRef = collection(db, 'Users');
+        const userDocRef = doc(parentCollectionRef, userAuth);
+        const carsCollectionRef = collection(userDocRef, 'cars');
+        const carData = {
+            useridReference: userAuth,
+            color: color,
+            licensePlate: licensePlate,
+            make: make,
+            model: model,
+            tagNumber: tagNumber,
+            timeStamp: serverTimestamp(),
+        };
+        try {
+            // Only evaluates to true if all fields have a non-empty value
+            if (tagNumber && licensePlate && make && model && color) {
+                if (tagNumber.length === 9) { // checks if tagNumber is a number
+                    await addDoc(carsCollectionRef, carData);
+                    navigation.goBack();
+                } else {
+                    window.alert("Please enter a valid Tag Number");
+                }
+            } else {
+                window.alert("Please complete all fields");
             }
-            await addDoc(collection(db, "vehicles"), {
-                color: color,
-                licensePlate: licensePlate,
-                make: make,
-                model: model,
-                tagNumber: tagNumber,
-                timeStamp: serverTimestamp(),
-
-            }).then(() => console.log('Data Submitted!'))
-                .catch((err) => alert(err))
-
-            navigation.goBack();
-        } else {
-            window.alert("Please complete all fields")
+        } catch (error) {
+            console.log('Error', error.message);
         }
     }
+
     return (
         <View style={styles.container}>
             <Input

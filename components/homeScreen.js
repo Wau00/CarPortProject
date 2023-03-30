@@ -2,6 +2,9 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../config/firebase';
+import auth from '@react-native-firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
+
 
 
 
@@ -24,8 +27,7 @@ const homeScreen = () => {
         fetchData();
     }, [])
 
-    console.log(data);
-
+    
     return (
         <View>
             <Text>Hello There!!!</Text>
