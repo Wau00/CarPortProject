@@ -49,27 +49,27 @@ export default function TabCars() {
                 value={index}
                 onChange={(e) => setIndex(e)}
                 indicatorStyle={{
-                    backgroundColor: 'white',
-                    height: 3,
+                    backgroundColor: '#a3a3a3',
+                    height: 2,
+                    padding: 5,
                 }}
-                variant="primary"
+                variant="default"
             >
-
                 {buttonTitles.map((title, index) => (
                     <Tab.Item
                         key={index}
                         title={title}
-                        titleStyle={{ fontSize: 12 }}
+                        titleStyle={styles.button}
                     // icon={{ name: 'timer', type: 'ionicon', color: 'white' }}
                     />
                 ))}
-            </Tab>
+            </Tab >
             <ImageBackground style={styles.image}
                 source={backgroundImage}>
             </ImageBackground>
-            <TabView value={index} onChange={setIndex} animationType="spring">
+            <TabView value={index} onChange={setIndex} animationType="spring" >
                 {cars.map((props, index) => (
-                    <TabView.Item key={index} style={{ backgroundColor: '#e5e5e5', width: '100%', height: '40%' }}>
+                    <TabView.Item key={index} style={styles.card}>
                         <PagerView style={styles.pagerView} initialPage={0}>
                             <View style={styles.container}>
                                 <View style={styles.row}>
@@ -99,7 +99,6 @@ export default function TabCars() {
                     </TabView.Item>
                 ))}
             </TabView >
-
         </>
     );
 };
@@ -134,7 +133,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textSec: {
-
         fontSize: 18,
         color: '#333',
     },
@@ -143,4 +141,22 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333',
     },
+    button: {
+        color: 'white',
+        backgroundColor: '#a3a3a3',
+        width: 150,
+        height: 40,
+        borderRadius: 55,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    card: {
+        backgroundColor: '#e5e5e5',
+        width: '100%',
+        height: '40%',
+    },
+    test: {
+        width: '100%',
+        height: '40%',
+    }
 });

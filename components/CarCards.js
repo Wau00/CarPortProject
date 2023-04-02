@@ -24,7 +24,6 @@ export default function CarCards({
         </>
     )
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
