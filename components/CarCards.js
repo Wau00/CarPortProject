@@ -12,6 +12,7 @@ export default function CarCards({
 }) {
     return (
         <>
+
             <View style={{ backgroundColor: '#e8e4e4' }}>
                 <Card.Divider />
                 <Text> <Text style={{ fontWeight: '800' }}> Make: </Text> {make}</Text>
