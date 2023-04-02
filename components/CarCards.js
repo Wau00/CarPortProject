@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Tab, TabView } from 'react-native';
 import { Card, Button } from '@rneui/themed'
+import PagerView from 'react-native-pager-view';
 
 export default function CarCards({
     id,
@@ -12,31 +13,37 @@ export default function CarCards({
 }) {
     return (
         <>
-
-            <View style={{ backgroundColor: '#e8e4e4' }}>
-                <Card.Divider />
-                <Text> <Text style={{ fontWeight: '800' }}> Make: </Text> {make}</Text>
-                <View style={{ flex: 'row' }}>
-                    <Card.Divider />
-                    <Text> <Text style={{ fontWeight: '800' }}> Model: </Text> {model}</Text>
-                    <Card.Divider />
-                    <Text> <Text style={{ fontWeight: '800' }}> Tag Number: </Text> {tagNumber}</Text>
-                    {/* <Text>{licensePlate}</Text> */}
-                    <Card.Divider />
-                    <Text> <Text style={{ fontWeight: '800' }}> Color: </Text> {color}</Text>
+            <PagerView style={styles.pagerView} initialPage={0}>
+                <View style={styles.tabView}>
+                    <Text h4>{make}</Text>
+                    <Text h4>{model}</Text>
+                    <Text h4>{tagNumber}</Text>
+                    <Text h4>{color}</Text>
                 </View>
-            </View >
+            </PagerView>
         </>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
+    },
+    pagerView: {
+        flex: 1,
+    },
+    tabView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    image: {
+        flex: 3,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 
