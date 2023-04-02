@@ -73,40 +73,28 @@ const Home = () => {
         )
     }
 
-    function ButtonsAssign() {
-        return (
-            <>
-                {/* <ListItem>
-                    {buttonTitles.map((button) => (
-                        <Button
-                            key={button.id}
-                            title={button.make}
-                            onPress={() => {
-                                console.log(button.id);
-                            }}
-                        />
-                    ))}
-                </ListItem> */}
-                <ButtonGroup
-                    onPress={(value) => {
-                        setSelectedIndex(value);
+    // function ButtonsAssign() {
+    //     return (
+    //         <>
+    //             <ButtonGroup
+    //                 onPress={(value) => {
+    //                     setSelectedIndex(value);
 
-                    }}
-                    selectedIndex={selectedIndex}
-                    buttons={buttonTitles}
-                    containerStyle={{ height: 50 }}
+    //                 }}
+    //                 selectedIndex={selectedIndex}
+    //                 buttons={buttonTitles}
+    //                 containerStyle={{ height: 50 }}
 
-                />
-            </>
-        )
-    }
+    //             />
+    //         </>
+    //     )
+    // }
     return (
         <View style={{ flex: 1, padding: 20, }}>
             {data.map(data => <HomeInfo key={data.id} {...data} />)}
             <Text>{data.firstName}</Text>
             <Text style={{ fontSize: '25', fontWeight: '700' }}> Select your car </Text>
-
-            <ButtonsAssign />
+            <TabCars />
             {cars.map(car => <CarCards key={car.id} {...car} />)}
             <Button
                 buttonStyle={{
@@ -114,6 +102,7 @@ const Home = () => {
                     borderRadius: 5,
                     margin: 15,
                 }} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
+
         </View>
 
     )
