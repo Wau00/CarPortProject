@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
-import { Text, ListItem, Button, ButtonGroup } from '@rneui/themed';
+import { Text, Button, ButtonGroup } from '@rneui/themed';
 import { db, auth } from '../config/firebase';
 import CarCards from '../components/CarCards';
+import TabCars from '../components/TabCars';
 
 
 const Home = () => {
@@ -47,17 +48,18 @@ const Home = () => {
         return unsubscribe;
     }, []);
 
+
     useEffect(() => {
         const usersCollectionRef = collection(db, 'Users');
         const userDocRef = doc(usersCollectionRef, userAuth);
         const carsCollectionRef = collection(userDocRef, 'cars');
-        const fetchButtonTitles = async () => {
-            const querySnapshot = await getDocs(carsCollectionRef);
+        const unsubscribe = onSnapshot(carsCollectionRef, (querySnapshot) => {
             const buttonTitles = querySnapshot.docs.map((doc) => doc.data().make);
             setButtonTitles(buttonTitles);
-        };
-        fetchButtonTitles();
+        });
+        return unsubscribe;
     }, []);
+
 
 
     function HomeInfo({ firstName, phoneNumber, lastName }) {
@@ -113,6 +115,7 @@ const Home = () => {
                     margin: 15,
                 }} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
         </View>
+
     )
 }
 
