@@ -83,11 +83,7 @@ const Home = () => {
             {data.map(data => <HomeInfo key={data.id} {...data} />)}
             <Text>{data.firstName}</Text>
             <Text style={styles.promptText}> Select your car </Text>
-            {/* <View style={styles.innerContainer}> */}
             <TabCars />
-            {/* </View> */}
-
-            {/* {cars.map(car => <CarCards key={car.id} {...car} />)} */}
             <Button
                 buttonStyle={styles.buttonStyle} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
         </View>
@@ -102,6 +98,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     promptText: {
+        marginVertical: 20,
         fontSize: '25',
         fontWeight: '700'
     },

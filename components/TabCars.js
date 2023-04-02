@@ -49,11 +49,11 @@ export default function TabCars() {
                 value={index}
                 onChange={(e) => setIndex(e)}
                 indicatorStyle={{
-                    backgroundColor: '#a3a3a3',
-                    height: 2,
-                    padding: 5,
+                    backgroundColor: '#737373',
+                    height: 1,
+                    padding: 4,
                 }}
-                variant="default"
+                style={styles.tabStyle}
             >
                 {buttonTitles.map((title, index) => (
                     <Tab.Item
@@ -84,7 +84,7 @@ export default function TabCars() {
                                     </View>
                                     <View style={styles.row}>
                                         <View style={styles.column}>
-                                            <Text style={styles.text}>{props.make}</Text>
+                                            <Text style={styles.text}>{props.model}</Text>
                                         </View>
                                         <View style={styles.column}>
                                             <Text style={styles.text}>{props.tagNumber}</Text>
@@ -111,6 +111,13 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'flex-end',
         alignItems: 'center'
+    },
+    tabStyle: {
+        backgroundColor: '#D4D4D4',
+        marginVertical: 10,
+        padding: 20,
+        textAlign: 'center',
+        textAlignVertical: 'center',
     },
     pagerView: {
         flex: 1,
@@ -151,17 +158,16 @@ const styles = StyleSheet.create({
     },
     button: {
         color: 'white',
-        backgroundColor: '#a3a3a3',
+        backgroundColor: '#737373',
         width: 150,
-        height: 40,
-        borderRadius: 55,
+        height: 50,
         alignItems: 'center',
         justifyContent: 'center',
     },
     card: {
         backgroundColor: '#e5e5e5',
         width: '100%',
-        height: 320,
+        height: 350,
         paddingBottom: 23,
     },
 });
