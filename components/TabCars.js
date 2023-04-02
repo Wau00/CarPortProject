@@ -64,37 +64,37 @@ export default function TabCars() {
                     />
                 ))}
             </Tab >
-            <ImageBackground style={styles.image}
-                source={backgroundImage}>
-            </ImageBackground>
             <TabView value={index} onChange={setIndex} animationType="spring" >
                 {cars.map((props, index) => (
                     <TabView.Item key={index} style={styles.card}>
                         <PagerView style={styles.pagerView} initialPage={0}>
-                            <View style={styles.container}>
-                                <View style={styles.row}>
-                                    <View style={styles.column}>
-                                        <Text style={styles.textSec}>Model</Text>
+                            <ImageBackground style={styles.image}
+                                source={backgroundImage}>
+                                <View style={styles.container}>
+                                    <View style={styles.row}>
+                                        <View style={styles.column}>
+                                            <Text style={styles.textSec}>Model</Text>
+                                        </View>
+                                        <View style={styles.column}>
+                                            <Text style={styles.textSec}>Tag Number</Text>
+                                        </View>
+                                        <View style={styles.column}>
+                                            <Text style={styles.textSec}>Color</Text>
+                                        </View>
                                     </View>
-                                    <View style={styles.column}>
-                                        <Text style={styles.textSec}>Tag Number</Text>
-                                    </View>
-                                    <View style={styles.column}>
-                                        <Text style={styles.textSec}>Color</Text>
+                                    <View style={styles.row}>
+                                        <View style={styles.column}>
+                                            <Text style={styles.text}>{props.make}</Text>
+                                        </View>
+                                        <View style={styles.column}>
+                                            <Text style={styles.text}>{props.tagNumber}</Text>
+                                        </View>
+                                        <View style={styles.column}>
+                                            <Text style={styles.text}>{props.color}</Text>
+                                        </View>
                                     </View>
                                 </View>
-                                <View style={styles.row}>
-                                    <View style={styles.column}>
-                                        <Text style={styles.text}>{props.make}</Text>
-                                    </View>
-                                    <View style={styles.column}>
-                                        <Text style={styles.text}>{props.tagNumber}</Text>
-                                    </View>
-                                    <View style={styles.column}>
-                                        <Text style={styles.text}>{props.color}</Text>
-                                    </View>
-                                </View>
-                            </View>
+                            </ImageBackground>
                         </PagerView>
                     </TabView.Item>
                 ))}
@@ -106,11 +106,17 @@ export default function TabCars() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginTop: 20,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     pagerView: {
         flex: 1,
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
     tabView: {
         flex: 1,
@@ -119,8 +125,8 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: '100%',
+        height: '100%',
     },
     row: {
         flexDirection: 'row',
@@ -133,10 +139,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textSec: {
+        marginVertical: 1,
         fontSize: 18,
         color: '#333',
     },
     text: {
+        marginVertical: 1,
         fontSize: 22,
         fontWeight: 'bold',
         color: '#333',
@@ -153,10 +161,7 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: '#e5e5e5',
         width: '100%',
-        height: '40%',
+        height: 320,
+        paddingBottom: 23,
     },
-    test: {
-        width: '100%',
-        height: '40%',
-    }
 });
