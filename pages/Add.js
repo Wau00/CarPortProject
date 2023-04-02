@@ -34,7 +34,7 @@ export default function Add() {
         try {
             // Only evaluates to true if all fields have a non-empty value
             if (tagNumber && licensePlate && make && model && color) {
-                if (tagNumber.length === 9) { // checks if tagNumber is a number
+                if (tagNumber.length === 6) { // checks if tagNumber is a 6 digits string
                     await addDoc(carsCollectionRef, carData);
                     navigation.goBack();
                 } else {
