@@ -49,17 +49,6 @@ const Home = () => {
     }, []);
 
 
-    useEffect(() => {
-        const usersCollectionRef = collection(db, 'Users');
-        const userDocRef = doc(usersCollectionRef, userAuth);
-        const carsCollectionRef = collection(userDocRef, 'cars');
-        const unsubscribe = onSnapshot(carsCollectionRef, (querySnapshot) => {
-            const buttonTitles = querySnapshot.docs.map((doc) => doc.data().make);
-            setButtonTitles(buttonTitles);
-        });
-        return unsubscribe;
-    }, []);
-
 
 
     function HomeInfo({ firstName, phoneNumber, lastName }) {
@@ -95,16 +84,14 @@ const Home = () => {
             <Text>{data.firstName}</Text>
             <Text style={{ fontSize: '25', fontWeight: '700' }}> Select your car </Text>
             <TabCars />
-            {cars.map(car => <CarCards key={car.id} {...car} />)}
+            {/* {cars.map(car => <CarCards key={car.id} {...car} />)} */}
             <Button
                 buttonStyle={{
                     backgroundColor: '#EA580C',
                     borderRadius: 5,
                     margin: 15,
                 }} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
-
         </View>
-
     )
 }
 
