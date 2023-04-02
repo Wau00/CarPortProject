@@ -79,23 +79,48 @@ const Home = () => {
     //     )
     // }
     return (
-        <View style={{ flex: 1, padding: 20, }}>
+        <View style={styles.container}>
             {data.map(data => <HomeInfo key={data.id} {...data} />)}
             <Text>{data.firstName}</Text>
-            <Text style={{ fontSize: '25', fontWeight: '700' }}> Select your car </Text>
+            <Text style={styles.promptText}> Select your car </Text>
+            {/* <View style={styles.innerContainer}> */}
             <TabCars />
+            {/* </View> */}
+
             {/* {cars.map(car => <CarCards key={car.id} {...car} />)} */}
             <Button
-                buttonStyle={{
-                    backgroundColor: '#EA580C',
-                    borderRadius: 5,
-                    margin: 15,
-                }} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
+                buttonStyle={styles.buttonStyle} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
         </View>
     )
 }
 
 export default Home
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+    },
+    promptText: {
+        fontSize: '25',
+        fontWeight: '700'
+    },
+    buttonStyle: {
+        backgroundColor: '#EA580C',
+        borderRadius: 5,
+        margin: 15,
+    },
+    innerContainer: {
+        position: 'absolute',
+        top: 200,
+        left: 10,
+        right: 0,
+        bottom: '10%', // Displays only 70% of the container height
+        backgroundColor: '#fff',
+    }
+
+
+
+
+})
 
