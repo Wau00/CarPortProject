@@ -5,8 +5,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { auth } from './config/firebase'
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Garage from './pages/Garage';
+import Profile from './pages/Profile';
 import { onAuthStateChanged } from 'firebase/auth';
 import Add from './pages/Add';
+import 'react-native-gesture-handler';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
 
 const Stack = createNativeStackNavigator();
 const AuthUserContext = createContext();
@@ -23,17 +28,22 @@ const AuthUserProvider = ({ children }) => {
 
 
 function HomeScreen() {
-  return (<Stack.Navigator>
-    <Stack.Screen name='Home' component={Home} />
-    <Stack.Screen options={{ presentation: 'modal' }} name='Add' component={Add} />
-  </Stack.Navigator>);
+
+  const Drawer = createDrawerNavigator();
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name='Home' component={Home} />
+      <Drawer.Screen name='Profile' component={Profile} />
+      <Drawer.Screen name='Garage' component={Garage} />
+      <Drawer.Screen options={{ presentation: 'modal' }} name='Add' component={Add} />
+    </Drawer.Navigator>
+  );
 }
 
 function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='Login' component={Login} />
-      {/* <Stack.Screen name='Signup' component={Signup} /> */}
     </Stack.Navigator>
   );
 }
@@ -70,6 +80,7 @@ function RootNavigator() {
 
 
 export default function App() {
+  console.log("Server Status: ON");
   return (
     <AuthUserProvider>
       <RootNavigator />
