@@ -42,7 +42,6 @@ export default function TabCars() {
         return unsubscribe;
     }, []);
 
-    console.log(cars);
     return (
         <>
             <Tab

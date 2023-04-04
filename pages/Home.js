@@ -4,9 +4,7 @@ import { useNavigation } from '@react-navigation/core';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import { Text, Button, ButtonGroup } from '@rneui/themed';
 import { db, auth } from '../config/firebase';
-import CarCards from '../components/CarCards';
 import TabCars from '../components/TabCars';
-
 
 const Home = () => {
     const [data, setData] = useState([]);
@@ -62,22 +60,6 @@ const Home = () => {
         )
     }
 
-    // function ButtonsAssign() {
-    //     return (
-    //         <>
-    //             <ButtonGroup
-    //                 onPress={(value) => {
-    //                     setSelectedIndex(value);
-
-    //                 }}
-    //                 selectedIndex={selectedIndex}
-    //                 buttons={buttonTitles}
-    //                 containerStyle={{ height: 50 }}
-
-    //             />
-    //         </>
-    //     )
-    // }
     return (
         <View style={styles.container}>
             {data.map(data => <HomeInfo key={data.id} {...data} />)}
