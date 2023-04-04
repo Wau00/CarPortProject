@@ -20,32 +20,6 @@ export default function SignupForm() {
 
     const navigation = useNavigation()
 
-    // Get a reference to the users collection
-    // const usersRef = collection(db, "Users");
-
-    // const handleSignup = async () => {
-    // if (password !== repeatPassword) {
-    //     window.alert("Passwords must match!")
-    // };
-
-    // if (email !== "" && password !== "") {
-    //     createUserWithEmailAndPassword(auth, email, password)
-    //         .then(() => console.log('Signup Success!'))
-    //         .catch((err) => alert(err))
-    // }
-    // // const { uid } = userCredential.user
-    // await setDoc((doc(db, "Users", "Cities")), {
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //     email: email,
-    //     phoneNumber: phoneNumber,
-    //     timeStamp: serverTimestamp(),
-
-    // }).then(() => console.log('Data Submitted!'))
-    //     .catch((err) => alert(err))
-
-
-
     const handleSignup = async () => {
         try {
 

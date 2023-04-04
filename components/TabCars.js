@@ -8,7 +8,6 @@ import CarCards from './CarCards';
 const backgroundImage = require('../assets/background.png');
 
 
-
 export default function TabCars() {
     const [index, setIndex] = React.useState(0);
     const [cars, setCars] = useState([]);

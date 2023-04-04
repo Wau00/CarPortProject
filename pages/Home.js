@@ -12,9 +12,6 @@ const Home = () => {
     const userAuth = auth.currentUser.uid;
     const navigation = useNavigation();
 
-    const [buttonTitles, setButtonTitles] = useState([]);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
     useEffect(() => {
         const userRef = collection(db, 'Users');
         // '__name__',  is a query that filters documents where the document ID is equal to the given value. 

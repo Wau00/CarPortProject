@@ -30,6 +30,7 @@ const AuthUserProvider = ({ children }) => {
 function HomeScreen() {
 
   const Drawer = createDrawerNavigator();
+  const Stack = createNativeStackNavigator();
   return (
     <Drawer.Navigator>
       <Drawer.Screen name='Home' component={Home} />
