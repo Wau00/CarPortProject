@@ -4,7 +4,11 @@ import { useNavigation } from '@react-navigation/core';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import { Text, Button, ButtonGroup } from '@rneui/themed';
 import { db, auth } from '../config/firebase';
+import Add from './Add';
 import TabCars from '../components/TabCars';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Tab = createNativeStackNavigator();
 
 const Home = () => {
     const [data, setData] = useState([]);
@@ -63,8 +67,7 @@ const Home = () => {
             <Text>{data.firstName}</Text>
             <Text style={styles.promptText}> Select your car </Text>
             <TabCars />
-            <Button
-                buttonStyle={styles.buttonStyle} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
+            <Button buttonStyle={styles.buttonStyle} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
         </View>
     )
 }
