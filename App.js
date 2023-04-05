@@ -26,17 +26,21 @@ const AuthUserProvider = ({ children }) => {
   );
 };
 
-
+const HomeStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
+    <Stack.Screen options={{ presentation: 'modal' }} name="Add" component={Add} />
+  </Stack.Navigator>
+);
 function HomeScreen() {
 
   const Drawer = createDrawerNavigator();
   const Stack = createNativeStackNavigator();
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name='Home' component={Home} />
+      <Drawer.Screen name='Home' component={HomeStack} />
       <Drawer.Screen name='Profile' component={Profile} />
       <Drawer.Screen name='Garage' component={Garage} />
-      <Drawer.Screen options={{ presentation: 'modal' }} name='Add' component={Add} />
     </Drawer.Navigator>
   );
 }
