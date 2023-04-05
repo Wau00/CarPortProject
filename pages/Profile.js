@@ -8,7 +8,6 @@ import ProfileCards from '../components/ProfileCards';
 
 const Profile = () => {
     const [data, setData] = useState([]);
-    const [newemail, setEmail] = useState('');
     const [newfirstName, setFirstName] = useState('');
     const [newlastName, setLastName] = useState('');
     const [newphoneNumber, setPhoneNumber] = useState('');
@@ -40,23 +39,25 @@ const Profile = () => {
     };
 
     const handleSavePress = async () => {
-        try {
-            const userAuth = auth.currentUser.uid;
-
-            // Create document in Firestore with user UID as document ID
-            const userData = {
-                email: newemail,
-                firstName: newfirstName,
-                lastName: newlastName,
-                phoneNumber: newphoneNumber,
-                timeStamp: serverTimestamp(),
-                // Add any other user data you want to store in Firestore here
-            };
-            await updateDoc(doc(db, 'Users', userAuth), userData);
-            console.log('Value of an Existing Document Field has been updated');
-            setEditing(false);
-        } catch (error) {
-            console.log('Error', error.message);
+        const userAuth = auth.currentUser.uid;
+        if (newfirstName && newlastName && newphoneNumber) {
+            try {
+                // Update document in Firestore with user UID as document ID
+                const userData = {
+                    firstName: newfirstName,
+                    lastName: newlastName,
+                    phoneNumber: newphoneNumber,
+                    timeStamp: serverTimestamp(),
+                    // Add any other user data you want to store in Firestore here
+                };
+                await updateDoc(doc(db, 'Users', userAuth), userData);
+                console.log('Value of an Existing Document Field has been updated');
+                setEditing(false);
+            } catch (error) {
+                console.log('Error', error.message);
+            }
+        } else {
+            window.alert("Please complete all fields");
         }
     };
 
@@ -131,25 +132,29 @@ const Profile = () => {
                 </View>
             ) : (
                 <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-                    {data.map(data => <ProfileCards key={data.id} {...data} />)}
-                    <Button
-                        title="Edit"
-                        loading={false}
-                        loadingProps={{ size: 'small', color: '#171717' }}
-                        buttonStyle={{
-                            backgroundColor: '#EA580C',
-                            borderRadius: 5,
-                        }}
-                        titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-                        containerStyle={{
-                            marginHorizontal: 50,
-                            height: 50,
-                            width: 200,
-                            marginVertical: 10,
-                        }}
-                        onPress={handleEditPress}
-                    />
+                    <View style={{ flex: 1 }}>
+                        <Card containerStyle={{ backgroundColor: '#f2f2f2', }}>
+                            {data.map(data => <ProfileCards key={data.id} {...data} />)}
+                            < Button
+                                title="Edit"
+                                loading={false}
+                                loadingProps={{ size: 'small', color: '#171717' }}
+                                buttonStyle={{
+                                    backgroundColor: '#EA580C',
+                                    borderRadius: 5,
+                                }}
+                                titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
+                                containerStyle={{
+                                    marginHorizontal: 50,
+                                    height: 50,
+                                    width: 200,
+                                    marginVertical: 10,
+                                }}
+                                onPress={handleEditPress}
+                            />
+                        </Card>
 
+                    </View>
                 </View>
 
             )
