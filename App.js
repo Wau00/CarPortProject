@@ -3,6 +3,7 @@ import { View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { auth } from './config/firebase'
+import { signOut } from "firebase/auth";
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Garage from './pages/Garage';
@@ -10,7 +11,7 @@ import Profile from './pages/Profile';
 import { onAuthStateChanged } from 'firebase/auth';
 import Add from './pages/Add';
 import 'react-native-gesture-handler';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 
 
 const Stack = createNativeStackNavigator();
@@ -32,12 +33,32 @@ const HomeStack = () => (
     <Stack.Screen options={{ presentation: 'modal' }} name="Add" component={Add} />
   </Stack.Navigator>
 );
-function HomeScreen() {
 
-  const Drawer = createDrawerNavigator();
-  const Stack = createNativeStackNavigator();
+
+function CustomDrawerContent(props) {
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        console.log("User signed out successfully.");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log("Error signing out:", error);
+      });
+  };
+
   return (
-    <Drawer.Navigator>
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem label="My Button" onPress={handleSignOut} />
+    </DrawerContentScrollView>
+  );
+}
+function HomeScreen() {
+  const Drawer = createDrawerNavigator();
+  return (
+    <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name='Home' component={HomeStack} />
       <Drawer.Screen name='Profile' component={Profile} />
       <Drawer.Screen name='Garage' component={Garage} />
