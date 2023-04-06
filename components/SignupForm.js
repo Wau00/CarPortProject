@@ -97,7 +97,7 @@ export default function SignupForm() {
                         }}
                         onPress={handleSignup}
                     />
-                    <Text style={{ textAlign: 'center' }}>Already have an account? <Text onPress={() => navigation.push('LoginForm')} style={{ color: 'red' }}>LOG IN</Text></Text>
+                    <Text style={{ textAlign: 'center' }}>Already have an account? <Text onPress={() => navigation.push('Login')} style={{ color: 'red' }}>LOG IN</Text></Text>
                     <Card.Divider />
                 </Card>
             </View>

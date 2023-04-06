@@ -7,14 +7,10 @@ import { initializeApp } from 'firebase/app';
 import { useNavigation } from '@react-navigation/native';
 
 
-
-
-
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation()
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
@@ -22,7 +18,9 @@ export default function LoginForm() {
         if (email !== "" && password !== "") {
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => console.log('Login Success!'))
-                .catch((err) => Alert.alert('Login Error!', err.message))
+                .catch((err) => Alert.alert('Please Enter Valid Credentials', err.message))
+        } else {
+            Alert.alert("Please Enter Valid Credentials");
         }
     }
 
@@ -60,7 +58,7 @@ export default function LoginForm() {
                     />
                     <Card.Title onPress={() => console.log('Forget Password!')}> Forgot Password? </Card.Title>
                     <Card.Divider />
-                    <Text style={{ textAlign: 'center' }}>Need an account? <Text onPress={() => navigation.push('SignupForm')} style={{ color: 'red' }}>SIGN UP</Text></Text>
+                    <Text style={{ textAlign: 'center' }}>Need an account? <Text onPress={() => navigation.push('SignUp')} style={{ color: 'red' }}>SIGN UP</Text></Text>
                 </Card>
             </View >
 

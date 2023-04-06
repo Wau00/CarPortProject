@@ -9,6 +9,8 @@ import Login from './pages/Login';
 import Garage from './pages/Garage';
 import Profile from './pages/Profile';
 import Intro from './pages/Intro';
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
 import { onAuthStateChanged } from 'firebase/auth';
 import Add from './pages/Add';
 import 'react-native-gesture-handler';
@@ -70,8 +72,9 @@ function HomeScreen() {
 function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name='Login' component={Login} /> */}
       <Stack.Screen name='Intro' component={Intro} />
+      <Stack.Screen name='Login' component={LoginForm} />
+      <Stack.Screen name='SignUp' component={SignupForm} />
     </Stack.Navigator>
   );
 }
