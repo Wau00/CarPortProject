@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
-import { Text, Button, ButtonGroup } from '@rneui/themed';
+import { collection, doc, query, where, onSnapshot } from 'firebase/firestore';
+import { Text, Button } from '@rneui/themed';
 import { db, auth } from '../config/firebase';
-import Add from './Add';
 import TabCars from '../components/TabCars';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-const Tab = createNativeStackNavigator();
-
 const Home = () => {
     const [data, setData] = useState([]);
     const [cars, setCars] = useState([]);
