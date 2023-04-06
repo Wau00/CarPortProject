@@ -3,6 +3,7 @@ import { View, StyleSheet, Animated, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import { Text, Button, ButtonGroup } from '@rneui/themed';
+import Login from './Login';
 
 
 const MyComponent = () => {
@@ -67,9 +68,7 @@ class Intro extends Component {
             );
         } else {
             return (
-                <View style={styles.signInScreen}>
-                    <Text style={styles.loadingScreenText}>SignIn</Text>
-                </View>
+                <Login />
             );
         }
     }

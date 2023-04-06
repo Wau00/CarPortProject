@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet, Select, } from "react-native"
+import { View, Text, StyleSheet, Select, Alert, } from "react-native"
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Card, Input, Button } from '@rneui/themed';
@@ -38,10 +38,10 @@ export default function Add() {
                     await addDoc(carsCollectionRef, carData);
                     navigation.goBack();
                 } else {
-                    window.alert("Please enter a valid Tag Number");
+                    Alert.alert("Please enter a valid Tag Number");
                 }
             } else {
-                window.alert("Please complete all fields");
+                Alert.alert("Please complete all fields");
             }
         } catch (error) {
             console.log('Error', error.message);

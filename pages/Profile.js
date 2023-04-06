@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Text, TextInput } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
 import { db, auth } from '../config/firebase';
 import { collection, doc, query, where, onSnapshot, getDocs, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { Card, Input, Button, } from '@rneui/themed';
@@ -57,7 +57,7 @@ const Profile = () => {
                 console.log('Error', error.message);
             }
         } else {
-            window.alert("Please complete all fields");
+            Alert.alert("Please complete all fields");
         }
     };
 
