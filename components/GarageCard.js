@@ -26,7 +26,7 @@ const GarageCard = ({ car }) => {
         const usersCollectionRef = collection(db, 'Users');
         const userDocRef = doc(usersCollectionRef, userAuth);
         const carsCollectionRef = collection(userDocRef, 'cars');
-        const carDocRef = doc(carsCollectionRef, carId);
+        const carDocRef = doc(carsCollectionRef, car.id);
         try {
             await deleteDoc(carDocRef);
             console.log('Car deleted successfully!');
@@ -42,7 +42,6 @@ const GarageCard = ({ car }) => {
 
     const showPrompt = () => {
         setIsPromptVisible(true);
-        console.log(carId)
     };
 
     const cancelDelete = () => {
