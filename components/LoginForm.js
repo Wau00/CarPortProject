@@ -27,40 +27,6 @@ export default function LoginForm() {
 
     return (
         <>
-            {/* <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }} >
-                <Card>
-                    <Card.Title style={{ fontSize: '30px' }}>CARPORT</Card.Title>
-                    <Card.Divider />
-                    <Text>Email</Text>
-                    <Input placeholder="Email" secureTextEntry={false}
-                        value={email}
-                        onChangeText={text => setEmail(text)} />
-                    <Text>Password</Text>
-                    <Input placeholder="Password" secureTextEntry={true}
-                        value={password}
-                        onChangeText={text => setPassword(text)} />
-                    <Button
-                        title="Log in"
-                        loading={false}
-                        loadingProps={{ size: 'small', color: '#171717' }}
-                        buttonStyle={{
-                            backgroundColor: '#EA580C',
-                            borderRadius: 5,
-                        }}
-                        titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-                        containerStyle={{
-                            marginHorizontal: 50,
-                            height: 50,
-                            width: 200,
-                            marginVertical: 10,
-                        }}
-                        onPress={handleLogin}
-                    />
-                    <Card.Title onPress={() => console.log('Forget Password!')}> Forgot Password? </Card.Title>
-                    <Card.Divider />
-                    <Text style={{ textAlign: 'center' }}>Need an account? <Text onPress={() => navigation.push('SignUp')} style={{ color: 'red' }}>SIGN UP</Text></Text>
-                </Card>
-            </View > */}
             <View style={styles.container}>
                 <View style={styles.subcontainer}>
                     <Text style={styles.title}>Sign in</Text>
