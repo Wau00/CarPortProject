@@ -33,31 +33,48 @@ export default function SignupForm() {
 
 
     const handleSignup = async () => {
-        try {
+        if (firstName && lastName && phoneNumber && email && password && repeatPassword) {
+            if (password === repeatPassword) {
+                // Validate phone number format
+                if (phoneNumber.length === 14) {
+                    Alert.alert('Phone Number Invalid', 'Please enter a 10-digit phone number');
+                    return;
+                }
+                try {
+                    // Create user in Firebase Authentication
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
 
-            // Create user in Firebase Authentication
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            // Create document in Firestore with user UID as document ID
-            const userData = {
-                email: email,
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                phoneNumber: phoneNumber,
-                timeStamp: serverTimestamp(),
-                // Add any other user data you want to store in Firestore here
-            };
-            await setDoc(doc(db, 'Users', user.uid), userData);
-
-            console.log('Success', 'User registered successfully!');
-        } catch (error) {
-            Alert.alert('Error', error.message);
+                    // Create document in Firestore with user UID as document ID
+                    const userData = {
+                        email: email,
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        password: password,
+                        phoneNumber: phoneNumber,
+                        timeStamp: serverTimestamp(),
+                        // Add any other user data you want to store in Firestore here
+                    };
+                    await setDoc(doc(db, 'Users', user.uid), userData);
+                    console.log('Success', 'User registered successfully!');
+                } catch (error) {
+                    Alert.alert('Error', error.message);
+                }
+            } else {
+                Alert.alert('Password Must Match');
+            }
+        } else {
+            Alert.alert('You must complete all the fields');
         }
+
+
+
+
+
     };
 
-    console.log(phoneNumber);4696622739
+    console.log(phoneNumber); 4696622739
 
     return (
         <>
@@ -89,7 +106,7 @@ export default function SignupForm() {
                     <Text style={styles.subtitle}>Phone Number</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="+1 (000) 000-0000"
+                        placeholder="(000) 000-0000"
                         keyboardType="phone-pad"
                         onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
                         value={phoneNumber}
