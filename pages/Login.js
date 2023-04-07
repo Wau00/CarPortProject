@@ -25,7 +25,7 @@ const Login = () => {
                 <Button buttonStyle={styles.buttonStyle} title='Sign in' onPress={() => navigation.navigate('Login')}></Button>
             </View>
             <Text style={styles.footerText}>Need an account? </Text>
-            <Text onPress={() => navigation.push('SignUp')} style={styles.footerTextS}>SIGN UP</Text>
+            <Text onPress={() => navigation.push('SignUp')} style={styles.footerTextS}>Sign Up</Text>
         </View >
 
     )

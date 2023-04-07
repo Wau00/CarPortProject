@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#FFFFFF',
     },
     loadingScreenText: {
         fontSize: 44,
@@ -90,7 +89,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#FFFFFF',
     },
     text: {
         fontSize: 20,

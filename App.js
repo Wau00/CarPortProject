@@ -54,7 +54,7 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem label="My Button" onPress={handleSignOut} />
+      <DrawerItem label="Sign Out" onPress={handleSignOut} />
     </DrawerContentScrollView>
   );
 }

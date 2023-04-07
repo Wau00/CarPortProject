@@ -7,7 +7,6 @@ import { db, auth } from "../config/firebase"
 import { useNavigation } from '@react-navigation/native';
 
 
-
 export default function SignupForm() {
 
 
