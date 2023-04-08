@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { auth } from './config/firebase'
@@ -52,19 +52,47 @@ function CustomDrawerContent(props) {
   };
 
   return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem label="Sign Out" onPress={handleSignOut} />
-    </DrawerContentScrollView>
+    <View style={{ flex: 1 }}>
+      <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
+      <View style={{ marginBottom: 100 }}>
+        <Button title="Sign Out" onPress={handleSignOut} />
+      </View>
+    </View>
   );
 }
+
 function HomeScreen() {
   const Drawer = createDrawerNavigator();
   return (
-    <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen name='Home' component={HomeStack} />
-      <Drawer.Screen name='Profile' component={Profile} />
-      <Drawer.Screen name='Garage' component={Garage} />
+    <Drawer.Navigator
+      screenOptions={{
+        drawerLabelStyle: {
+          fontSize: 20,
+          fontWeight: '400',
+        },
+        drawerActiveBackgroundColor: '#f2f2f2',
+        drawerActiveTintColor: '#EA580C',
+        drawerStyle: {
+          backgroundColor: '#F5F5F5',
+        },
+        headerStyle: {
+          backgroundColor: '#f2f2f2',
+        },
+        headerTintColor: 'black',
+        headerTitleStyle: {
+          fontSize: 1,
+        },
+      }}
+
+
+
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+    >
+      <Drawer.Screen name="Home" component={HomeStack} />
+      <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Garage" component={Garage} />
     </Drawer.Navigator>
   );
 }

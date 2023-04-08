@@ -36,7 +36,7 @@ export default function SignupForm() {
         if (firstName && lastName && phoneNumber && email && password && repeatPassword) {
             if (password === repeatPassword) {
                 // Validate phone number format
-                if (phoneNumber.length === 14) {
+                if (phoneNumber.length !== 14) {
                     Alert.alert('Phone Number Invalid', 'Please enter a 10-digit phone number');
                     return;
                 }
