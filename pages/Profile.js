@@ -131,29 +131,39 @@ const Profile = () => {
                     </View>
                 </View>
             ) : (
-                <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-                    <View style={{ flex: 1 }}>
-                        <Card containerStyle={{ backgroundColor: '#f2f2f2', }}>
-                            {data.map(data => <ProfileCards key={data.id} {...data} />)}
-                            < Button
-                                title="Edit"
-                                loading={false}
-                                loadingProps={{ size: 'small', color: '#171717' }}
-                                buttonStyle={{
-                                    backgroundColor: '#EA580C',
-                                    borderRadius: 5,
-                                }}
-                                titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-                                containerStyle={{
-                                    marginHorizontal: 50,
-                                    height: 50,
-                                    width: 200,
-                                    marginVertical: 10,
-                                }}
-                                onPress={handleEditPress}
-                            />
-                        </Card>
+                // <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
+                //     <View style={{ flex: 1 }}>
+                //         <Card containerStyle={{ backgroundColor: '#f2f2f2', }}>
+                //             {data.map(data => <ProfileCards key={data.id} {...data} />)}
+                //             < Button
+                //                 title="Edit"
+                //                 loading={false}
+                //                 loadingProps={{ size: 'small', color: '#171717' }}
+                //                 buttonStyle={{
+                //                     backgroundColor: '#EA580C',
+                //                     borderRadius: 5,
+                //                 }}
+                //                 titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
+                //                 containerStyle={{
+                //                     marginHorizontal: 50,
+                //                     height: 50,
+                //                     width: 200,
+                //                     marginVertical: 10,
+                //                 }}
+                //                 onPress={handleEditPress}
+                //             />
+                //         </Card>
 
+                //     </View>
+                // </View>
+                <View style={styles.container}>
+                    {data.map(data => <ProfileCards key={data.id} {...data} />)}
+                    <View>
+                        <Button
+                            buttonStyle={styles.buttonStyle}
+                            title="Edit"
+                            onPress={handleEditPress}
+                        />
                     </View>
                 </View>
 
@@ -163,5 +173,58 @@ const Profile = () => {
     )
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    subcontainer: {
+        width: '90%',
+        textAlign: 'left'
+    },
+    title: {
+        fontSize: 40,
+        fontWeight: '400',
+        marginBottom: 20,
+    },
+    subtitle: {
+        fontSize: 20,
+        fontWeight: '300',
+        marginVertical: 5,
+    },
+    input: {
+        width: '100%',
+        height: 50,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        marginBottom: 10,
+        padding: 10,
+        backgroundColor: 'white',
+    },
+    buttonStyle: {
+        backgroundColor: '#EA580C',
+        borderRadius: 5,
+        margin: 20,
+        fontWeight: '300',
+        width: 340,
+    },
+    footerText: {
+        textAlign: 'center',
+        marginBottom: 10,
+        fontWeight: '300',
+        fontSize: 17,
+
+    },
+    footerTextS: {
+        textAlign: 'center',
+        textDecorationLine: 'underline',
+        color: 'grey',
+        fontWeight: '300',
+        fontSize: 17,
+
+    },
+});
 
 export default Profile
