@@ -31,9 +31,9 @@ const AuthUserProvider = ({ children }) => {
 };
 
 const HomeStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator >
     <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
-    <Stack.Screen options={{ presentation: 'modal' }} name="Add" component={Add} />
+    <Stack.Screen options={{ presentation: 'modal', headerShown: false }} name="Add" component={Add} />
   </Stack.Navigator>
 );
 
@@ -72,10 +72,11 @@ function HomeScreen() {
           fontSize: 20,
           fontWeight: '400',
         },
-        drawerActiveBackgroundColor: '#f2f2f2',
+        drawerActiveBackgroundColor: '#E5E5E5',
         drawerActiveTintColor: '#EA580C',
         drawerStyle: {
           backgroundColor: '#F5F5F5',
+
         },
         headerStyle: {
           backgroundColor: '#f2f2f2',
