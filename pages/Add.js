@@ -78,7 +78,6 @@ export default function Add() {
     const handleModelChange = (value) => {
         setSelectedModel(value);
         setModel(value);
-        setInputText(`${selectedMake} ${value}`);
     };
 
     ///////////////////////////////////////
@@ -149,10 +148,12 @@ export default function Add() {
                 <Text style={styles.subtitle}>Color</Text>
                 <TextInput
                     style={styles.input}
-                    returnKeyType="done"
                     placeholder="Color" secureTextEntry={false}
                     onChangeText={text => setColor(text)}
                     value={color}
+                    returnKeyType="done"
+                    onSubmitEditing={() => console.log('Info submitted')}
+
                 />
                 <Text style={styles.subtitle}>License plate</Text>
                 <TextInput
@@ -160,6 +161,8 @@ export default function Add() {
                     placeholder="License Plate" secureTextEntry={false}
                     onChangeText={text => setLicensePlate(text)}
                     value={licensePlate}
+                    returnKeyType="done"
+                    onSubmitEditing={() => console.log('Info submitted')}
                 />
                 <View>
                     <Button
