@@ -143,7 +143,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginVertical: 80,
+        marginVertical: 30,
         alignItems: 'center',
     },
     subcontainer: {

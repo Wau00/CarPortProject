@@ -26,7 +26,8 @@ const Garage = () => {
 
     console.log(cars);
     return (
-        <View>
+        <View style={styles.container}>
+            <Text style={styles.title}>Garage </Text>
             {cars.map(car => (
                 <GarageCard key={car.id} car={car} />
             ))}
@@ -35,3 +36,16 @@ const Garage = () => {
 };
 
 export default Garage
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        margin: 30,
+        textAlign: 'left'
+    },
+    title: {
+        fontSize: 40,
+        fontWeight: '400',
+        marginBottom: 20,
+    },
+});
