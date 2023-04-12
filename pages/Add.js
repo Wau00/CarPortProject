@@ -68,8 +68,9 @@ export default function Add() {
     }, []);
 
     const handleMakeChange = (value) => {
+        const capitalizedMake = value.charAt(0).toUpperCase() + value.slice(1);
         setSelectedMake(value);
-        setMake(value);
+        setMake(capitalizedMake);
         axios.get(`https://www.carqueryapi.com/api/0.3/?cmd=getModels&make=${value}`).then((response) => {
             setCarModels(response.data.Models);
         });
@@ -153,7 +154,6 @@ export default function Add() {
                     value={color}
                     returnKeyType="done"
                     onSubmitEditing={() => console.log('Info submitted')}
-
                 />
                 <Text style={styles.subtitle}>License plate</Text>
                 <TextInput
