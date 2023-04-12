@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { db, auth } from '../config/firebase';
 import { collection, doc, query, where, onSnapshot, getDocs, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { Card, Input, Button, } from '@rneui/themed';
@@ -11,9 +11,8 @@ const Profile = () => {
     const [newfirstName, setFirstName] = useState('');
     const [newlastName, setLastName] = useState('');
     const [newphoneNumber, setPhoneNumber] = useState('');
+    const [editing, setEditing] = useState(false);
     const userAuth = auth.currentUser.uid;
-
-
 
     useEffect(() => {
         const userRef = collection(db, 'Users');
@@ -23,139 +22,107 @@ const Profile = () => {
             setData(
                 querySnapshot.docs.map(doc => ({
                     id: doc.id,
-                    ...doc.data(),
+                    ...doc.data()
                 }))
             )
         })
         return unsubscribe;
     }, [])
-    const [editing, setEditing] = useState(false);
+
+    useEffect(() => {
+        setEditing(false);
+        return () => setEditing(true);
+
+    }, []);
 
     const handleEditPress = () => {
         setEditing(true);
     };
+
     const cancelEditPress = () => {
         setEditing(false);
     };
 
     const handleSavePress = async () => {
         const userAuth = auth.currentUser.uid;
-        if (newfirstName && newlastName && newphoneNumber) {
-            try {
-                // Update document in Firestore with user UID as document ID
-                const userData = {
-                    firstName: newfirstName,
-                    lastName: newlastName,
-                    phoneNumber: newphoneNumber,
-                    timeStamp: serverTimestamp(),
-                    // Add any other user data you want to store in Firestore here
-                };
-                await updateDoc(doc(db, 'Users', userAuth), userData);
-                console.log('Value of an Existing Document Field has been updated');
-                setEditing(false);
-            } catch (error) {
-                console.log('Error', error.message);
-            }
-        } else {
+
+        if (!newfirstName || !newlastName || !newphoneNumber) {
             Alert.alert("Please complete all fields");
+            return;
+        }
+
+        if (newphoneNumber.length !== 15) {
+            Alert.alert('Phone Number Invalid', 'Please enter a 10-digit phone number');
+            return;
+        }
+
+        try {
+            const userData = {
+                firstName: newfirstName,
+                lastName: newlastName,
+                phoneNumber: newphoneNumber,
+                timeStamp: serverTimestamp(),
+            };
+
+            const userDocRef = doc(db, 'Users', userAuth);
+            await updateDoc(userDocRef, userData);
+            console.log('User data has been updated:', userData);
+            setEditing(false);
+        } catch (error) {
+            console.log('Error updating user data:', error);
         }
     };
+    const formatPhoneNumber = (text) => {
+        // Remove all non-digits from the input
+        let cleaned = text.replace(/\D/g, '');
 
+        // Apply formatting based on the length of the cleaned number
+        if (cleaned.length < 4) {
+            return ` (${cleaned}`;
+        } else if (cleaned.length < 7) {
+            return ` (${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
+        } else {
+            return ` (${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+        }
+    };
     return (
         <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-
             {editing ? (
-
-                <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-                    <View style={{ flex: 1 }}>
-                        <Card containerStyle={{ backgroundColor: '#f2f2f2', }}>
-                            <Card.Title style={{ fontSize: '30px' }}>Profile</Card.Title>
-                            <Text>First Name</Text>
-                            <Input
-                                placeholder={data.firstName}
-                                // containerStyle={{ backgroundColor: 'white' }}
-                                // placeholderTextColor={"black"}
-                                disabledInputStyle={true}
-                                secureTextEntry={false}
-
-                                value={newfirstName}
-                                onChangeText={text => setFirstName(text)}
-
-                            />
-                            <Text>Last Name</Text>
-                            <Input placeholder={data.lastName}
-                                secureTextEntry={false}
-                                value={newlastName}
-                                onChangeText={text => setLastName(text)}
-                            />
-                            <Text>Phone Number</Text>
-                            <Input
-                                placeholder={data.phoneNumber}
-                                onChangeText={text => setPhoneNumber(text)}
-                                value={newphoneNumber} />
-                            <Button
-                                title="Save changes"
-                                loading={false}
-                                loadingProps={{ size: 'small', color: '#171717' }}
-                                buttonStyle={{
-                                    backgroundColor: '#EA580C',
-                                    borderRadius: 5,
-                                }}
-                                titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-                                containerStyle={{
-                                    marginHorizontal: 50,
-                                    height: 50,
-                                    width: 200,
-                                    marginVertical: 10,
-                                }}
-                                onPress={handleSavePress}
-                            />
-                            <Button
-                                title="Cancel"
-                                loading={false}
-                                loadingProps={{ size: 'small', color: '#171717' }}
-                                buttonStyle={{
-                                    backgroundColor: '#EA580C',
-                                    borderRadius: 5,
-                                }}
-                                titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-                                containerStyle={{
-                                    marginHorizontal: 50,
-                                    height: 50,
-                                    width: 200,
-                                    marginVertical: 10,
-                                }}
-                                onPress={cancelEditPress}
-                            />
-                        </Card>
+                <View style={styles.container}>
+                    <View style={styles.subcontainer}>
+                        <Text style={styles.title}>Profile</Text>
+                        <Text style={styles.subtitle}>First name</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter first name"
+                            value={newfirstName}
+                            onChangeText={text => setFirstName(text)}
+                        />
+                        <Text style={styles.subtitle}>Last name</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter last name"
+                            value={newlastName}
+                            onChangeText={text => setLastName(text)}
+                        />
+                        <Text style={styles.subtitle}>Phone number</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter phone number"
+                            onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
+                            value={newphoneNumber}
+                        />
+                        <Button
+                            buttonStyle={styles.buttonStyle}
+                            title="Save changes"
+                            onPress={handleSavePress}
+                        />
                     </View>
+                    <TouchableOpacity onPress={cancelEditPress} style={styles.cancelButton}>
+                        <Text style={styles.cancelButtonText}>X</Text>
+                    </TouchableOpacity>
                 </View>
             ) : (
-                // <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-                //     <View style={{ flex: 1 }}>
-                //         <Card containerStyle={{ backgroundColor: '#f2f2f2', }}>
-                //             {data.map(data => <ProfileCards key={data.id} {...data} />)}
-                //             < Button
-                //                 title="Edit"
-                //                 loading={false}
-                //                 loadingProps={{ size: 'small', color: '#171717' }}
-                //                 buttonStyle={{
-                //                     backgroundColor: '#EA580C',
-                //                     borderRadius: 5,
-                //                 }}
-                //                 titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-                //                 containerStyle={{
-                //                     marginHorizontal: 50,
-                //                     height: 50,
-                //                     width: 200,
-                //                     marginVertical: 10,
-                //                 }}
-                //                 onPress={handleEditPress}
-                //             />
-                //         </Card>
-
-                //     </View>
-                // </View>
                 <View style={styles.container}>
                     {data.map(data => <ProfileCards key={data.id} {...data} />)}
                     <View>
@@ -176,7 +143,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        marginVertical: 80,
         alignItems: 'center',
     },
     subcontainer: {
@@ -202,6 +169,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         padding: 10,
         backgroundColor: 'white',
+        fontSize: 20,
     },
     buttonStyle: {
         backgroundColor: '#EA580C',
@@ -224,6 +192,21 @@ const styles = StyleSheet.create({
         fontWeight: '300',
         fontSize: 17,
 
+    },
+    cancelButton: {
+        position: 'absolute',
+        top: 20,
+        right: 20,
+        width: 30,
+        height: 30,
+        borderRadius: 50,
+        backgroundColor: '#EA580C',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cancelButtonText: {
+        fontSize: 16,
+        color: 'white',
     },
 });
 

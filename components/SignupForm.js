@@ -50,7 +50,6 @@ export default function SignupForm() {
                         email: email,
                         firstName: firstName,
                         lastName: lastName,
-                        email: email,
                         password: password,
                         phoneNumber: phoneNumber,
                         timeStamp: serverTimestamp(),
