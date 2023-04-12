@@ -32,7 +32,7 @@ const AuthUserProvider = ({ children }) => {
 
 const HomeStack = () => (
   <Stack.Navigator >
-    <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
+    <Stack.Screen options={{ headerShown: false }} name="Homescreen" component={Home} />
     <Stack.Screen options={{ presentation: 'modal', headerShown: false }} name="Add" component={Add} />
   </Stack.Navigator>
 );
