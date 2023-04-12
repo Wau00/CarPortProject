@@ -37,6 +37,8 @@ export default function LoginForm() {
                         onChangeText={text => setEmail(text)}
                         value={email}
                         keyboardType="email-address"
+                        returnKeyType="done"
+                        onSubmitEditing={() => console.log('Info submitted')}
                     />
                     <Text style={styles.subtitle}>Password</Text>
                     <TextInput
@@ -45,6 +47,8 @@ export default function LoginForm() {
                         onChangeText={text => setPassword(text)}
                         value={password}
                         secureTextEntry
+                        returnKeyType="done"
+                        onSubmitEditing={() => console.log('Info submitted')}
                     />
                     <View>
                         <Button
