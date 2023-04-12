@@ -97,6 +97,8 @@ const Profile = () => {
                             placeholder="Enter first name"
                             value={newfirstName}
                             onChangeText={text => setFirstName(text)}
+                            returnKeyType="done"
+                            onSubmitEditing={() => console.log('Info submitted')}
                         />
                         <Text style={styles.subtitle}>Last name</Text>
                         <TextInput
@@ -104,9 +106,14 @@ const Profile = () => {
                             placeholder="Enter last name"
                             value={newlastName}
                             onChangeText={text => setLastName(text)}
+                            returnKeyType="done"
+                            onSubmitEditing={() => console.log('Info submitted')}
                         />
                         <Text style={styles.subtitle}>Phone number</Text>
                         <TextInput
+                            keyboardType="number-pad"
+                            returnKeyType="done"
+                            onSubmitEditing={() => console.log('Phone number submitted')}
                             style={styles.input}
                             placeholder="Enter phone number"
                             onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
