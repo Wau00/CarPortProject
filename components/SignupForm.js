@@ -86,6 +86,8 @@ export default function SignupForm() {
                         placeholder="First name"
                         onChangeText={text => setFirstName(text)}
                         value={firstName}
+                        returnKeyType="done"
+                        onSubmitEditing={() => console.log('Info submitted')}
                     />
                     <Text style={styles.subtitle}>Last name</Text>
                     <TextInput
@@ -93,6 +95,8 @@ export default function SignupForm() {
                         placeholder="Last name"
                         onChangeText={text => setLastName(text)}
                         value={lastName}
+                        returnKeyType="done"
+                        onSubmitEditing={() => console.log('Info submitted')}
                     />
                     <Text style={styles.subtitle}>Email</Text>
                     <TextInput
@@ -101,12 +105,16 @@ export default function SignupForm() {
                         onChangeText={text => setEmail(text)}
                         value={email}
                         keyboardType="email-address"
+                        returnKeyType="done"
+                        onSubmitEditing={() => console.log('Info submitted')}
                     />
                     <Text style={styles.subtitle}>Phone Number</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="(000) 000-0000"
                         keyboardType="phone-pad"
+                        returnKeyType="done"
+                        onSubmitEditing={() => console.log('Phone number submitted')}
                         onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
                         value={phoneNumber}
                     />
@@ -117,6 +125,8 @@ export default function SignupForm() {
                         onChangeText={text => setPassword(text)}
                         value={password}
                         secureTextEntry
+                        returnKeyType="done"
+                        onSubmitEditing={() => console.log('Info submitted')}
                     />
                     <Text style={styles.subtitle}>Repeat password</Text>
                     <TextInput
@@ -125,6 +135,8 @@ export default function SignupForm() {
                         onChangeText={text => setPasswordd(text)}
                         value={repeatPassword}
                         secureTextEntry
+                        returnKeyType="done"
+                        onSubmitEditing={() => console.log('Info submitted')}
                     />
                     <View>
                         <Button
