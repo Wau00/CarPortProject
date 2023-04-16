@@ -40,39 +40,6 @@ export default function TabCars() {
         return unsubscribe;
     }, []);
 
-    const API_BASE_URL = 'https://cdn.imagin.studio/';
-    const API_NAME = 'getImageCacheBundle?licenseBundleSize=1000&channelName=instagram_imagin.studio&campaignId=ad99884&';
-    const CUSTOMER_KEY = 'uswalteralonso-underwoodcompany';
-
-    function generateImageUrl(make, model, color) {
-        const queryParams = `make=${make}&modelFamily=${model}&angle=23`;
-        return `${API_BASE_URL}${API_NAME}customer=${CUSTOMER_KEY}&${queryParams}`;
-    }
-    const [imageUrl, setImageUrl] = useState('');
-    function CarImage({ make, model, color }) {
-
-
-        useEffect(() => {
-            const url = generateImageUrl(make, model, color);
-            setImageUrl(url);
-        }, [make, model, color]);
-
-        console.log(imageUrl);
-
-        return <ImageBackground source={imageUrl} />;
-    }
-
-    function CarImages({ cars }) {
-        return (
-            <>
-                {cars.map(({ make, model, color }) => (
-                    <CarImage key={`${make}-${model}-${color}`} make={make} model={model} color={color} />
-                ))}
-            </>
-        );
-    }
-
-
 
     return (
         <>
@@ -101,9 +68,8 @@ export default function TabCars() {
                     <TabView.Item key={index} style={styles.card}>
                         <PagerView style={styles.pagerView} initialPage={0}>
                             <ImageBackground style={styles.image}
-                                source={{ uri: imageUrl }}
+                                source={{ uri: `https://cdn.imagin.studio/getImage?customer=uswalteralonso-underwoodcompany&make=${props.make}&modelFamily=${props.model}&angle=23` }}
                             >
-                                <CarImages cars={cars} />
                                 <View style={styles.container}>
                                     <View style={styles.row}>
                                         <View style={styles.column}>
