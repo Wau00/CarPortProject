@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Text, TabView, Card } from '@rneui/themed';
-import { View, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import PagerView from 'react-native-pager-view';
 import { db, auth } from '../config/firebase';
@@ -93,23 +93,41 @@ export default function TabCars() {
                                             <Text style={styles.text}>{props.color}</Text>
                                         </View>
                                     </View>
-                                    <Button title='Car Model' buttonStyle={styles.buttonStyle}
-                                        onPress={async () => {
-                                            console.log(props.tagNumber);
-                                            try {
-                                                const isAvailable = await SMS.isAvailableAsync();
-                                                if (isAvailable) {
-                                                    const { result } = await SMS.sendSMSAsync(
-                                                        ['4696622739'],
-                                                        props.tagNumber // message body
-                                                    );
-                                                    console.log(result);
-                                                } else {
-                                                    console.log('SMS is not available on this device.');
-                                                }
-                                            } catch (error) {
-                                                console.log(error);
-                                            }
+                                    <Button
+                                        title='Car Model'
+                                        buttonStyle={styles.buttonStyle}
+                                        onPress={() => {
+                                            Alert.alert(
+                                                'Confirm',
+                                                `Are you sure you want to send an SMS with the tag number ${props.tagNumber}?`,
+                                                [
+                                                    {
+                                                        text: 'Cancel',
+                                                        style: 'cancel',
+                                                        onPress: () => console.log('SMS sending cancelled.'),
+                                                    },
+                                                    {
+                                                        text: 'OK',
+                                                        onPress: async () => {
+                                                            console.log(props.tagNumber);
+                                                            try {
+                                                                const isAvailable = await SMS.isAvailableAsync();
+                                                                if (isAvailable) {
+                                                                    const { result } = await SMS.sendSMSAsync(
+                                                                        ['4696622739'],
+                                                                        props.tagNumber // message body
+                                                                    );
+                                                                    console.log(result);
+                                                                } else {
+                                                                    console.log('SMS is not available on this device.');
+                                                                }
+                                                            } catch (error) {
+                                                                console.log(error);
+                                                            }
+                                                        },
+                                                    },
+                                                ]
+                                            );
                                         }}
                                     />
                                 </View>
