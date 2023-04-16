@@ -130,7 +130,7 @@ export default function Add() {
                 <TextInput
                     style={styles.input}
                     placeholder="Tag Number"
-                    onChangeText={text => setTagNumber(text)}
+                    onChangeText={text => setTagNumber(text.substring(0, 6))}
                     value={tagNumber}
                     keyboardType="number-pad"
                     returnKeyType="done"
