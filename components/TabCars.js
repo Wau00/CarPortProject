@@ -41,6 +41,11 @@ export default function TabCars() {
         return unsubscribe;
     }, []);
 
+
+
+
+
+
     return (
         <>
             <Tab
@@ -62,7 +67,6 @@ export default function TabCars() {
                     />
                 ))}
             </Tab >
-
             <TabView value={index} onChange={setIndex} animationType="spring" >
                 {cars.map((props, index) => (
                     <TabView.Item key={index} style={styles.card}>
@@ -71,71 +75,75 @@ export default function TabCars() {
                                 source={{ uri: `https://cdn.imagin.studio/getImage?customer=uswalteralonso-underwoodcompany&make=${props.make}&modelFamily=${props.model}&angle=23` }}
                             >
                                 <View style={styles.container}>
-                                    <View style={styles.row}>
-                                        <View style={styles.column}>
-                                            <Text style={styles.textSec}>Model</Text>
-                                        </View>
-                                        <View style={styles.column}>
-                                            <Text style={styles.textSec}>Tag Number</Text>
-                                        </View>
-                                        <View style={styles.column}>
-                                            <Text style={styles.textSec}>Color</Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.row}>
-                                        <View style={styles.column}>
-                                            <Text style={styles.text}>{props.model}</Text>
-                                        </View>
-                                        <View style={styles.column}>
-                                            <Text style={styles.text}>{props.tagNumber}</Text>
-                                        </View>
-                                        <View style={styles.column}>
-                                            <Text style={styles.text}>{props.color}</Text>
-                                        </View>
-                                    </View>
-                                    <Button
-                                        title='Car Model'
-                                        buttonStyle={styles.buttonStyle}
-                                        onPress={() => {
-                                            Alert.alert(
-                                                'Confirm',
-                                                `Are you sure you want to send an SMS with the tag number ${props.tagNumber}?`,
-                                                [
-                                                    {
-                                                        text: 'Cancel',
-                                                        style: 'cancel',
-                                                        onPress: () => console.log('SMS sending cancelled.'),
-                                                    },
-                                                    {
-                                                        text: 'OK',
-                                                        onPress: async () => {
-                                                            console.log(props.tagNumber);
-                                                            try {
-                                                                const isAvailable = await SMS.isAvailableAsync();
-                                                                if (isAvailable) {
-                                                                    const { result } = await SMS.sendSMSAsync(
-                                                                        ['4696622739'],
-                                                                        props.tagNumber // message body
-                                                                    );
-                                                                    console.log(result);
-                                                                } else {
-                                                                    console.log('SMS is not available on this device.');
-                                                                }
-                                                            } catch (error) {
-                                                                console.log(error);
-                                                            }
+                                    <View style={styles.buttonContainer}>
+                                        <Button
+                                            title='Request this car'
+                                            buttonStyle={styles.buttonStyle}
+                                            onPress={() => {
+                                                Alert.alert(
+                                                    'Confirm',
+                                                    `Are you sure you want to send an SMS with the tag number ${props.tagNumber}?`,
+                                                    [
+                                                        {
+                                                            text: 'Cancel',
+                                                            style: 'cancel',
+                                                            onPress: () => console.log('SMS sending cancelled.'),
                                                         },
-                                                    },
-                                                ]
-                                            );
-                                        }}
-                                    />
+                                                        {
+                                                            text: 'OK',
+                                                            onPress: async () => {
+                                                                console.log(props.tagNumber);
+                                                                try {
+                                                                    const isAvailable = await SMS.isAvailableAsync();
+                                                                    if (isAvailable) {
+                                                                        const { result } = await SMS.sendSMSAsync(
+                                                                            ['4696622739'],
+                                                                            props.tagNumber // message body
+                                                                        );
+                                                                        console.log(result);
+                                                                    } else {
+                                                                        console.log('SMS is not available on this device.');
+                                                                    }
+                                                                } catch (error) {
+                                                                    console.log(error);
+                                                                }
+                                                            },
+                                                        },
+                                                    ]
+                                                );
+                                            }}
+                                        />
+                                    </View>
+                                    <View style={styles.propsContainer}>
+                                        <View style={styles.row}>
+                                            <View style={styles.column}>
+                                                <Text style={styles.textSec}>Model</Text>
+                                            </View>
+                                            <View style={styles.column}>
+                                                <Text style={styles.textSec}>Tag Number</Text>
+                                            </View>
+                                            <View style={styles.column}>
+                                                <Text style={styles.textSec}>Color</Text>
+                                            </View>
+                                        </View>
+                                        <View style={styles.row}>
+                                            <View style={styles.column}>
+                                                <Text style={styles.text}>{props.model}</Text>
+                                            </View>
+                                            <View style={styles.column}>
+                                                <Text style={styles.text}>{props.tagNumber}</Text>
+                                            </View>
+                                            <View style={styles.column}>
+                                                <Text style={styles.text}>{props.color}</Text>
+                                            </View>
+                                        </View>
+                                    </View>
                                 </View>
                             </ImageBackground>
                         </PagerView>
                     </TabView.Item>
                 ))}
-            </TabView >
+            </TabView>
         </>
     );
 };
@@ -144,10 +152,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 20,
-        width: '100%',
-        height: '100%',
-        justifyContent: 'flex-end',
-        alignItems: 'center'
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    propsContainer: {
+        alignItems: 'center',
+        marginTop: 180,
     },
     tabStyle: {
         backgroundColor: '#D4D4D4',
@@ -157,7 +169,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
     },
     pagerView: {
-        flex: 1,
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
@@ -204,7 +215,6 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: '#EA580C',
         borderRadius: 5,
-        margin: 15,
     },
     card: {
         backgroundColor: '#e5e5e5',

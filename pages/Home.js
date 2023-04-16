@@ -43,7 +43,7 @@ const Home = () => {
         return unsubscribe;
     }, []);
 
-    
+
 
 
     function HomeInfo({ firstName, phoneNumber, lastName }) {
