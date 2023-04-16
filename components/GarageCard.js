@@ -29,12 +29,19 @@ const GarageCard = ({ car }) => {
         const userDocRef = doc(usersCollectionRef, userAuth);
         const carsCollectionRef = collection(userDocRef, 'cars');
         const carDocRef = doc(carsCollectionRef, car.id);
-        try {
-            await deleteDoc(carDocRef);
-            console.log('Car deleted successfully!');
-        } catch (error) {
-            console.error('Error deleting car:', error);
-        }
+
+        const unsubscribe = onSnapshot(carDocRef, async (doc) => {
+            if (doc.exists()) {
+                try {
+                    await deleteDoc(carDocRef);
+                    console.log('Car deleted successfully!');
+                } catch (error) {
+                    console.error('Error deleting car:', error);
+                }
+            }
+        });
+
+        return unsubscribe;
     };
 
     const confirmDelete = () => {
