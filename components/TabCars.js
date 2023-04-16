@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Text, TabView, Card } from '@rneui/themed';
-import { View, ActivityIndicator, StyleSheet, ImageBackground, } from 'react-native';
+import { View, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import PagerView from 'react-native-pager-view';
 import { db, auth } from '../config/firebase';
+import { Button } from '@rneui/themed';
+import * as SMS from 'expo-sms';
 
 
 
@@ -27,19 +29,17 @@ export default function TabCars() {
         const usersCollectionRef = collection(db, 'Users');
         const userDocRef = doc(usersCollectionRef, userAuth);
         const carsCollectionRef = collection(userDocRef, 'cars');
-
         const q = query(carsCollectionRef);
         const unsubscribe = onSnapshot(q, querySnapshot => {
-            setCars(
-                querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }))
-            )
-        })
+            const cars = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                tagNumber: doc.data().tagNumber
+            }));
+            setCars(cars);
+        });
         return unsubscribe;
     }, []);
-
 
     return (
         <>
@@ -93,12 +93,30 @@ export default function TabCars() {
                                             <Text style={styles.text}>{props.color}</Text>
                                         </View>
                                     </View>
+                                    <Button title='Car Model' buttonStyle={styles.buttonStyle}
+                                        onPress={async () => {
+                                            console.log(props.tagNumber);
+                                            try {
+                                                const isAvailable = await SMS.isAvailableAsync();
+                                                if (isAvailable) {
+                                                    const { result } = await SMS.sendSMSAsync(
+                                                        ['4696622739'],
+                                                        props.tagNumber // message body
+                                                    );
+                                                    console.log(result);
+                                                } else {
+                                                    console.log('SMS is not available on this device.');
+                                                }
+                                            } catch (error) {
+                                                console.log(error);
+                                            }
+                                        }}
+                                    />
                                 </View>
                             </ImageBackground>
                         </PagerView>
                     </TabView.Item>
                 ))}
-
             </TabView >
         </>
     );
@@ -164,6 +182,11 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    buttonStyle: {
+        backgroundColor: '#EA580C',
+        borderRadius: 5,
+        margin: 15,
     },
     card: {
         backgroundColor: '#e5e5e5',
