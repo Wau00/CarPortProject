@@ -56,8 +56,6 @@ export default function Add() {
     const [selectedMake, setSelectedMake] = useState('');
     const [carModels, setCarModels] = useState([]);
     const [selectedModel, setSelectedModel] = useState('');
-    const [inputText, setInputText] = useState('');
-    const [showPicker, setShowPicker] = useState(false);
     const [showMakesPicker, setShowMakesPicker] = useState(false);
     const [showModelsPicker, setShowModelsPicker] = useState(false);
 

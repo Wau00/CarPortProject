@@ -5,6 +5,7 @@ import { collection, doc, query, where, onSnapshot } from 'firebase/firestore';
 import { Text, Button } from '@rneui/themed';
 import { db, auth } from '../config/firebase';
 import TabCars from '../components/TabCars';
+import * as SMS from 'expo-sms';
 const Home = () => {
     const [data, setData] = useState([]);
     const [cars, setCars] = useState([]);
@@ -42,7 +43,22 @@ const Home = () => {
         return unsubscribe;
     }, []);
 
-
+    const sendTextMessage = async () => {
+        try {
+            const isAvailable = await SMS.isAvailableAsync();
+            if (isAvailable) {
+                const { result } = await SMS.sendSMSAsync(
+                    ['4696622739', '4696622739'],
+                    'Hello, this is a test message!' // message body
+                );
+                console.log(result);
+            } else {
+                console.log('SMS is not available on this device.');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 
     function HomeInfo({ firstName, phoneNumber, lastName }) {
@@ -62,6 +78,7 @@ const Home = () => {
             <Text>{data.firstName}</Text>
             <Text style={styles.promptText}> Select your car </Text>
             <TabCars />
+            <Button buttonStyle={styles.buttonStyle} title='Add a Car' onPress={sendTextMessage}></Button>
             <Button buttonStyle={styles.buttonStyle} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
         </View>
     )
