@@ -4,8 +4,7 @@ import { View, ActivityIndicator, StyleSheet, ImageBackground, } from 'react-nat
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import PagerView from 'react-native-pager-view';
 import { db, auth } from '../config/firebase';
-import CarCards from './CarCards';
-const backgroundImage = require('../assets/background.png');
+
 
 
 export default function TabCars() {
@@ -41,6 +40,40 @@ export default function TabCars() {
         return unsubscribe;
     }, []);
 
+    const API_BASE_URL = 'https://cdn.imagin.studio/';
+    const API_NAME = 'getImageCacheBundle?licenseBundleSize=1000&channelName=instagram_imagin.studio&campaignId=ad99884&';
+    const CUSTOMER_KEY = 'uswalteralonso-underwoodcompany';
+
+    function generateImageUrl(make, model, color) {
+        const queryParams = `make=${make}&modelFamily=${model}&angle=23`;
+        return `${API_BASE_URL}${API_NAME}customer=${CUSTOMER_KEY}&${queryParams}`;
+    }
+    const [imageUrl, setImageUrl] = useState('');
+    function CarImage({ make, model, color }) {
+
+
+        useEffect(() => {
+            const url = generateImageUrl(make, model, color);
+            setImageUrl(url);
+        }, [make, model, color]);
+
+        console.log(imageUrl);
+
+        return <ImageBackground source={imageUrl} />;
+    }
+
+    function CarImages({ cars }) {
+        return (
+            <>
+                {cars.map(({ make, model, color }) => (
+                    <CarImage key={`${make}-${model}-${color}`} make={make} model={model} color={color} />
+                ))}
+            </>
+        );
+    }
+
+
+
     return (
         <>
             <Tab
@@ -62,12 +95,15 @@ export default function TabCars() {
                     />
                 ))}
             </Tab >
+
             <TabView value={index} onChange={setIndex} animationType="spring" >
                 {cars.map((props, index) => (
                     <TabView.Item key={index} style={styles.card}>
                         <PagerView style={styles.pagerView} initialPage={0}>
                             <ImageBackground style={styles.image}
-                                source={backgroundImage}>
+                                source={{ uri: imageUrl }}
+                            >
+                                <CarImages cars={cars} />
                                 <View style={styles.container}>
                                     <View style={styles.row}>
                                         <View style={styles.column}>
@@ -96,6 +132,7 @@ export default function TabCars() {
                         </PagerView>
                     </TabView.Item>
                 ))}
+
             </TabView >
         </>
     );
