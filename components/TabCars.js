@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Text, TabView, Card } from '@rneui/themed';
-import { View, StyleSheet, ImageBackground, Alert } from 'react-native';
+import { View, StyleSheet, ImageBackground, Alert, TouchableOpacity } from 'react-native';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import PagerView from 'react-native-pager-view';
 import { db, auth } from '../config/firebase';
@@ -42,8 +42,36 @@ export default function TabCars() {
     }, []);
 
 
+    const [isVisible, setIsVisible] = useState(true);
+    const btnVisible = () => {
+        setIsVisible(false);
+        setSeconds(20 * 60);
+        setTimerStarted(true);
 
+    };
 
+    const [seconds, setSeconds] = useState(20 * 60);
+    const [timerStarted, setTimerStarted] = useState(false);
+
+    useEffect(() => {
+        let interval;
+        if (timerStarted && seconds > 0) {
+            interval = setInterval(() => {
+                setSeconds(seconds - 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [seconds, timerStarted]);
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+    const handlePress = () => {
+
+    };
 
 
     return (
@@ -76,43 +104,56 @@ export default function TabCars() {
                             >
                                 <View style={styles.container}>
                                     <View style={styles.buttonContainer}>
-                                        <Button
-                                            title='Request this car'
-                                            buttonStyle={styles.buttonStyle}
-                                            onPress={() => {
-                                                Alert.alert(
-                                                    'Confirm',
-                                                    `Are you sure you want to send an SMS with the tag number ${props.tagNumber}?`,
-                                                    [
-                                                        {
-                                                            text: 'Cancel',
-                                                            style: 'cancel',
-                                                            onPress: () => console.log('SMS sending cancelled.'),
-                                                        },
-                                                        {
-                                                            text: 'OK',
-                                                            onPress: async () => {
-                                                                console.log(props.tagNumber);
-                                                                try {
-                                                                    const isAvailable = await SMS.isAvailableAsync();
-                                                                    if (isAvailable) {
-                                                                        const { result } = await SMS.sendSMSAsync(
-                                                                            ['4696622739'],
-                                                                            props.tagNumber // message body
-                                                                        );
-                                                                        console.log(result);
-                                                                    } else {
-                                                                        console.log('SMS is not available on this device.');
-                                                                    }
-                                                                } catch (error) {
-                                                                    console.log(error);
-                                                                }
+                                        {isVisible ? (
+                                            <Button
+                                                title="Request this car"
+                                                buttonStyle={styles.buttonStyle}
+                                                onPress={() => {
+                                                    Alert.alert(
+                                                        'Confirm',
+                                                        `Are you sure you want to send an SMS with the tag number ${props.tagNumber}?`,
+                                                        [
+                                                            {
+                                                                text: 'Cancel',
+                                                                style: 'cancel',
+                                                                onPress: () => console.log('SMS sending cancelled.'),
                                                             },
-                                                        },
-                                                    ]
-                                                );
-                                            }}
-                                        />
+                                                            {
+                                                                text: 'OK',
+                                                                onPress: async () => {
+                                                                    console.log(props.tagNumber);
+                                                                    try {
+                                                                        const isAvailable = await SMS.isAvailableAsync();
+                                                                        if (isAvailable) {
+                                                                            const { result } = await SMS.sendSMSAsync(
+                                                                                ['4696622739'],
+                                                                                props.tagNumber // message body
+                                                                            );
+                                                                            console.log(result);
+                                                                            btnVisible();
+                                                                        } else {
+                                                                            console.log('SMS is not available on this device.');
+                                                                        }
+                                                                    } catch (error) {
+                                                                        console.log(error);
+                                                                    }
+                                                                },
+                                                            },
+                                                        ]
+                                                    );
+                                                }}
+                                            />
+                                        ) : (
+                                            <View>
+                                                <Text style={{ fontSize: 22, textAlign: 'center', }}>{formatTime(seconds)}</Text>
+                                                <Button
+                                                    title="This cas has been requested"
+                                                    buttonStyle={styles.buttonStyleSec}
+                                                    onPress={() => setIsVisible(true)}
+                                                />
+                                            </View>
+
+                                        )}
                                     </View>
                                     <View style={styles.propsContainer}>
                                         <View style={styles.row}>
@@ -158,8 +199,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     propsContainer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
         alignItems: 'center',
-        marginTop: 180,
     },
     tabStyle: {
         backgroundColor: '#D4D4D4',
@@ -216,10 +260,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#EA580C',
         borderRadius: 5,
     },
+    buttonStyleSec: {
+        backgroundColor: 'grey',
+        borderRadius: 5,
+    },
     card: {
         backgroundColor: '#e5e5e5',
         width: '100%',
-        height: 350,
+        height: 380,
         paddingBottom: 23,
     },
 });
