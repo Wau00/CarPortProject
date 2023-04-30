@@ -45,9 +45,8 @@ export default function TabCars() {
     const [isVisible, setIsVisible] = useState(true);
     const btnVisible = () => {
         setIsVisible(false);
-        setSeconds(20 * 60);
+        setSeconds(1 * 5);
         setTimerStarted(true);
-
     };
 
     const [seconds, setSeconds] = useState(20 * 60);
@@ -59,9 +58,12 @@ export default function TabCars() {
             interval = setInterval(() => {
                 setSeconds(seconds - 1);
             }, 1000);
+        } else if (seconds === 0) {
+            setIsVisible(true);
         }
         return () => clearInterval(interval);
     }, [seconds, timerStarted]);
+
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
@@ -69,9 +71,6 @@ export default function TabCars() {
         return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
-    const handlePress = () => {
-
-    };
 
 
     return (
@@ -147,12 +146,11 @@ export default function TabCars() {
                                             <View>
                                                 <Text style={{ fontSize: 22, textAlign: 'center', }}>{formatTime(seconds)}</Text>
                                                 <Button
-                                                    title="This cas has been requested"
+                                                    title="This car has been requested"
                                                     buttonStyle={styles.buttonStyleSec}
                                                     onPress={() => setIsVisible(true)}
                                                 />
                                             </View>
-
                                         )}
                                     </View>
                                     <View style={styles.propsContainer}>
