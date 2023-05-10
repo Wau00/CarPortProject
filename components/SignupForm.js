@@ -15,6 +15,8 @@ export default function SignupForm() {
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [passwordStrength, setPasswordStrength] = useState('');
+
     const navigation = useNavigation()
 
 
@@ -32,6 +34,27 @@ export default function SignupForm() {
         }
     };
 
+    const evaluatePasswordStrength = (password) => {
+        const weakRegex = /^.{0,6}$/;
+        const moderateRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+        const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-])[a-zA-Z\d-]{20,}$|^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{8,}$/;
+
+        if (weakRegex.test(password)) {
+            return 'Weak';
+        } else if (moderateRegex.test(password)) {
+            return 'Moderate';
+        } else if (strongRegex.test(password)) {
+            return 'Strong';
+        } else {
+            return 'Invalid';
+        }
+    };
+
+    const handlePasswordChange = (text) => {
+        setPassword(text);
+        const strength = evaluatePasswordStrength(text);
+        setPasswordStrength(strength);
+    };
 
     const handleSignup = async () => {
         if (firstName && lastName && phoneNumber && email && password && repeatPassword) {
@@ -39,6 +62,11 @@ export default function SignupForm() {
                 // Validate phone number format
                 if (phoneNumber.length !== 15) {
                     Alert.alert('Phone Number Invalid', 'Please enter a 10-digit phone number');
+                    return;
+                }
+                const strength = evaluatePasswordStrength(password);
+                if (strength !== 'Strong') {
+                    Alert.alert('Weak Password', 'Password must be strong');
                     return;
                 }
                 try {
@@ -116,17 +144,24 @@ export default function SignupForm() {
                             onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
                             value={phoneNumber}
                         />
-                        <Text style={styles.subtitle}>Password</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.subtitle}>Password</Text>
+                            <Text style={styles.passwordStrength}>{passwordStrength}</Text>
+                        </View>
                         <View style={styles.passwordInputContainer}>
                             <TextInput
                                 style={styles.input}
                                 placeholder="Password"
-                                onChangeText={text => setPassword(text)}
+                                onChangeText={(text) => {
+                                    setPassword(text);
+                                    handlePasswordChange(text);
+                                }}
                                 value={password}
                                 secureTextEntry={!showPassword}
                                 returnKeyType="done"
                                 onSubmitEditing={() => console.log('Info submitted')}
                             />
+
                             <TouchableOpacity onPress={toggleShowPassword} style={{ position: "absolute", right: 12, top: 15 }}>
                                 <MaterialCommunityIcons
                                     name={showPassword ? 'eye-off' : 'eye'}
@@ -135,8 +170,6 @@ export default function SignupForm() {
                                 />
                             </TouchableOpacity>
                         </View>
-
-
                         <Text style={styles.subtitle}>Repeat password</Text>
                         <TextInput
                             style={styles.input}
@@ -226,6 +259,13 @@ const styles = StyleSheet.create({
     },
     passwordIcon: {
         marginRigth: 40,
+    },
+    passwordStrength: {
+        fontSize: 20,
+        position: "absolute",
+        right: 12,
+        top: 6,
+
     },
     footerTextS: {
         textAlign: 'center',
