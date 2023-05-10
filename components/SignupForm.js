@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Text, View, StyleSheet, Alert, TextInput } from 'react-native';
+import { ScrollView, TouchableOpacity, Text, View, StyleSheet, Alert, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Card, Input, Button } from '@rneui/themed';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc, serverTimestamp, setDoc, doc } from "firebase/firestore";
 import { db, auth } from "../config/firebase"
 import { useNavigation } from '@react-navigation/native';
-import { Value } from 'react-native-reanimated';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 export default function SignupForm() {
     const [email, setEmail] = useState('');
@@ -14,6 +14,7 @@ export default function SignupForm() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const navigation = useNavigation()
 
 
@@ -66,89 +67,98 @@ export default function SignupForm() {
         } else {
             Alert.alert('You must complete all the fields');
         }
-
-
-
-
-
     };
-
-    console.log(phoneNumber); 4696622739
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     return (
         <>
-            <View style={styles.container}>
-                <View style={styles.subcontainer}>
-                    <Text style={styles.title}>Sign up</Text>
-                    <Text style={styles.subtitle}>First name</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="First name"
-                        onChangeText={text => setFirstName(text)}
-                        value={firstName}
-                        returnKeyType="done"
-                        onSubmitEditing={() => console.log('Info submitted')}
-                    />
-                    <Text style={styles.subtitle}>Last name</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Last name"
-                        onChangeText={text => setLastName(text)}
-                        value={lastName}
-                        returnKeyType="done"
-                        onSubmitEditing={() => console.log('Info submitted')}
-                    />
-                    <Text style={styles.subtitle}>Email</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="mail@carport.com"
-                        onChangeText={text => setEmail(text)}
-                        value={email}
-                        keyboardType="email-address"
-                        returnKeyType="done"
-                        onSubmitEditing={() => console.log('Info submitted')}
-                    />
-                    <Text style={styles.subtitle}>Phone Number</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="(000) 000-0000"
-                        keyboardType="phone-pad"
-                        returnKeyType="done"
-                        onSubmitEditing={() => console.log('Phone number submitted')}
-                        onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
-                        value={phoneNumber}
-                    />
-                    <Text style={styles.subtitle}>Password</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Password"
-                        onChangeText={text => setPassword(text)}
-                        value={password}
-                        secureTextEntry
-                        returnKeyType="done"
-                        onSubmitEditing={() => console.log('Info submitted')}
-                    />
-                    <Text style={styles.subtitle}>Repeat password</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Password"
-                        onChangeText={text => setPasswordd(text)}
-                        value={repeatPassword}
-                        secureTextEntry
-                        returnKeyType="done"
-                        onSubmitEditing={() => console.log('Info submitted')}
-                    />
-                    <View>
-                        <Button
-                            buttonStyle={styles.buttonStyle}
-                            title="Sign up"
-                            onPress={handleSignup}
+            <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <ScrollView contentContainerStyle={styles.scrollViewContentContainer} >
+                    <View style={styles.subcontainer}>
+                        <Text style={styles.title}>Sign up</Text>
+                        <Text style={styles.subtitle}>First name</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="First name"
+                            onChangeText={text => setFirstName(text)}
+                            value={firstName}
+                            returnKeyType="done"
+                            onSubmitEditing={() => console.log('Info submitted')}
                         />
+                        <Text style={styles.subtitle}>Last name</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Last name"
+                            onChangeText={text => setLastName(text)}
+                            value={lastName}
+                            returnKeyType="done"
+                            onSubmitEditing={() => console.log('Info submitted')}
+                        />
+                        <Text style={styles.subtitle}>Email</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="mail@carport.com"
+                            onChangeText={text => setEmail(text)}
+                            value={email}
+                            keyboardType="email-address"
+                            returnKeyType="done"
+                            onSubmitEditing={() => console.log('Info submitted')}
+                        />
+                        <Text style={styles.subtitle}>Phone Number</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="(000) 000-0000"
+                            keyboardType="phone-pad"
+                            returnKeyType="done"
+                            onSubmitEditing={() => console.log('Phone number submitted')}
+                            onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
+                            value={phoneNumber}
+                        />
+                        <Text style={styles.subtitle}>Password</Text>
+                        <View style={styles.passwordInputContainer}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Password"
+                                onChangeText={text => setPassword(text)}
+                                value={password}
+                                secureTextEntry={!showPassword}
+                                returnKeyType="done"
+                                onSubmitEditing={() => console.log('Info submitted')}
+                            />
+                            <TouchableOpacity onPress={toggleShowPassword} style={{ position: "absolute", right: 12, top: 15 }}>
+                                <MaterialCommunityIcons
+                                    name={showPassword ? 'eye-off' : 'eye'}
+                                    size={24}
+                                    color="#333"
+                                />
+                            </TouchableOpacity>
+                        </View>
+
+
+                        <Text style={styles.subtitle}>Repeat password</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Password"
+                            onChangeText={text => setPasswordd(text)}
+                            value={repeatPassword}
+                            secureTextEntry
+                            returnKeyType="done"
+                            onSubmitEditing={() => console.log('Info submitted')}
+                        />
+                        <View>
+                            <Button
+                                buttonStyle={styles.buttonStyle}
+                                title="Sign up"
+                                onPress={handleSignup}
+                            />
+                        </View>
+                        <Text style={styles.footerText}>Already have an account? </Text>
+                        <Text onPress={() => navigation.push('Login')} style={styles.footerTextS}>Sign in</Text>
                     </View>
-                    <Text style={styles.footerText}>Already have an account? </Text>
-                    <Text onPress={() => navigation.push('Login')} style={styles.footerTextS}>Sign in</Text>
-                </View>
-            </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
 
         </>
     );
@@ -156,6 +166,11 @@ export default function SignupForm() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    scrollViewContentContainer: {
+        flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -196,6 +211,21 @@ const styles = StyleSheet.create({
         fontWeight: '300',
         fontSize: 17,
 
+    },
+    passwordInputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    passwordInput: {
+        flex: 1,
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        paddingHorizontal: 10,
+    },
+    passwordIcon: {
+        marginRigth: 40,
     },
     footerTextS: {
         textAlign: 'center',

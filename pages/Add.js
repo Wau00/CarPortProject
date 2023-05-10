@@ -142,7 +142,7 @@ export default function Add() {
                 <Text style={styles.subtitle}>Model</Text>
                 <TouchableOpacity onPress={() => { setShowModelsPicker(true); setModel(selectedModel); }}>
                     <Text style={styles.input} >{selectedModel || "Select model"}</Text>
-                    <Icon style={{ position: "absolute", right: 1, marginVertical: 10 }} name="keyboard-arrow-down" size={30} color="#000" />
+                    <Icon style={{ position: "absolute", right: 12, top: 15, marginVertical: 10 }} name="keyboard-arrow-down" size={30} color="#000" />
                 </TouchableOpacity>
                 <Text style={styles.subtitle}>Color</Text>
                 <TextInput

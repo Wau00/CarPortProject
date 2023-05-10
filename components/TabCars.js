@@ -43,6 +43,14 @@ export default function TabCars() {
 
 
     const [isVisible, setIsVisible] = useState(true);
+    // useEffect(() => {
+    //     const toyotaCar = cars.find(car => car.brand === 'Toyota');
+    //     if (toyotaCar) {
+    //       setIsVisible(true);
+    //     } else {
+    //       setIsVisible(false);
+    //     }
+    //   }, [cars]);
     const btnVisible = () => {
         setIsVisible(false);
         setSeconds(1 * 5);
@@ -186,7 +194,6 @@ export default function TabCars() {
         </>
     );
 };
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
