@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet, TouchableOpacity, Alert, TextInput, Modal } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Alert, TextInput, Modal, KeyboardAvoidingView, ScrollView } from "react-native"
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Card, Input, Button } from '@rneui/themed';
@@ -79,13 +79,10 @@ export default function Add() {
         setModel(value);
     };
 
-    ///////////////////////////////////////
-    ///////////////////////////////////////
-
-    console.log(make);
-    console.log(model);
     return (
-        <View style={styles.container}>
+
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
             <View style={styles.subcontainer}>
                 <Modal
                     animationType="slide"
@@ -142,7 +139,7 @@ export default function Add() {
                 <Text style={styles.subtitle}>Model</Text>
                 <TouchableOpacity onPress={() => { setShowModelsPicker(true); setModel(selectedModel); }}>
                     <Text style={styles.input} >{selectedModel || "Select model"}</Text>
-                    <Icon style={{ position: "absolute", right: 12, top: 15, marginVertical: 10 }} name="keyboard-arrow-down" size={30} color="#000" />
+                    <Icon style={{ position: "absolute", right: 1, marginVertical: 10 }} name="keyboard-arrow-down" size={30} color="#000" />
                 </TouchableOpacity>
                 <Text style={styles.subtitle}>Color</Text>
                 <TextInput
@@ -170,7 +167,8 @@ export default function Add() {
                     />
                 </View>
             </View>
-        </View>
+
+        </KeyboardAvoidingView>
 
     )
 }

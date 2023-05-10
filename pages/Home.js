@@ -49,10 +49,12 @@ const Home = () => {
     function HomeInfo({ firstName, phoneNumber, lastName }) {
         return (
             <>
-                <View style={{}}>
-                    <Text style={{ fontWeight: '300', fontSize: '14' }}> Welcome back </Text>
-                    <Text style={{ fontWeight: '500', fontSize: '17' }}> {firstName} {lastName}</Text>
+
+                <View style={styles.subcontainer}>
+                    <Text style={{ fontWeight: '300', fontSize: '18' }}> Welcome back </Text>
+                    <Text style={styles.title}> {firstName} {lastName}</Text>
                 </View>
+
             </>
         )
     }
@@ -74,6 +76,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+
+    },
+    subcontainer: {
+        textAlign: 'left'
+    },
+    title: {
+        fontSize: 40,
+        fontWeight: '400',
+        marginBottom: 20,
     },
     promptText: {
         marginVertical: 20,

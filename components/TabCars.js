@@ -3,6 +3,7 @@ import { Tab, Text, TabView, Card } from '@rneui/themed';
 import { View, StyleSheet, ImageBackground, Alert, TouchableOpacity } from 'react-native';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import PagerView from 'react-native-pager-view';
+import { useNavigation } from '@react-navigation/core';
 import { db, auth } from '../config/firebase';
 import { Button } from '@rneui/themed';
 import * as SMS from 'expo-sms';
@@ -13,6 +14,7 @@ export default function TabCars() {
     const [index, setIndex] = React.useState(0);
     const [cars, setCars] = useState([]);
     const [buttonTitles, setButtonTitles] = useState([]);
+    const navigation = useNavigation();
     const userAuth = auth.currentUser.uid;
     useEffect(() => {
         const usersCollectionRef = collection(db, 'Users');
@@ -93,14 +95,21 @@ export default function TabCars() {
                 }}
                 style={styles.tabStyle}
             >
-                {buttonTitles.map((title, index) => (
-                    <Tab.Item
-                        key={index}
-                        title={title}
-                        titleStyle={styles.button}
-                    // icon={{ name: 'timer', type: 'ionicon', color: 'white' }}
-                    />
-                ))}
+                {buttonTitles.length > 0 ? (
+                    buttonTitles.map((title, index) => (
+                        <Tab.Item
+                            key={index}
+                            title={title}
+                            titleStyle={styles.button}
+                        // icon={{ name: 'timer', type: 'ionicon', color: 'white' }}
+                        />
+                    ))
+                ) : (
+                    <View style={styles.container}>
+                        <Text style={styles.text}>Let's start by adding a car!</Text>
+                        <Button buttonStyle={styles.buttonStyle} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
+                    </View>
+                )}
             </Tab >
             <TabView value={index} onChange={setIndex} animationType="spring" >
                 {cars.map((props, index) => (
@@ -252,6 +261,12 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         color: '#333',
+    },
+    textSecondary: {
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20,
     },
     button: {
         color: 'white',
