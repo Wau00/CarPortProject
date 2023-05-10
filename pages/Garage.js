@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Text } from 'react-native';
+import { ScrollView, View, StyleSheet, Text } from 'react-native';
 import GarageCard from '../components/GarageCard';
 import { collection, doc, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
@@ -26,12 +26,14 @@ const Garage = () => {
 
     console.log(cars);
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Garage </Text>
-            {cars.map(car => (
-                <GarageCard key={car.id} car={car} />
-            ))}
-        </View>
+        <ScrollView>
+            <View style={styles.container}>
+                <Text style={styles.title}>Garage </Text>
+                {cars.map(car => (
+                    <GarageCard key={car.id} car={car} />
+                ))}
+            </View>
+        </ScrollView>
     );
 };
 

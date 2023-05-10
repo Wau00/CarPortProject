@@ -61,9 +61,9 @@ const GarageCard = ({ car }) => {
     }
 
     return (
-        <View style={{ borderWidth: 1, borderColor: '#A3A3A3', padding: 10, marginBottom: 10, flexDirection: 'row-reverse', alignItems: 'center' }}>
+        <View style={{ borderWidth: 1, borderColor: '#A3A3A3', padding: 10, marginBottom: 10, flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={styles.square}></View>
                         <Text style={styles.header}>{car.make}</Text>
@@ -88,12 +88,13 @@ const GarageCard = ({ car }) => {
                             <Text style={styles.subtitle}>License plate</Text>
                             <Text style={styles.input}>{car.licensePlate}</Text>
                         </View>
-                        <Button
-                            buttonStyle={styles.buttonStyle}
-                            title="Delete"
-                            onPress={showPrompt}
-                        />
-
+                        <View style={{ alignItems: 'center', marginTop: 10 }}>
+                            <Button
+                                buttonStyle={styles.buttonStyle}
+                                title="Delete"
+                                onPress={showPrompt}
+                            />
+                        </View>
                     </View>
                 )}
             </View>
@@ -117,6 +118,7 @@ const GarageCard = ({ car }) => {
                 )
             )}
         </View>
+
     );
 };
 
