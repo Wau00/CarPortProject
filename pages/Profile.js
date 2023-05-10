@@ -68,6 +68,7 @@ const Profile = () => {
             await updateDoc(userDocRef, userData);
             console.log('User data has been updated:', userData);
             setEditing(false);
+            Alert.alert("Saved Successfully");
         } catch (error) {
             console.log('Error updating user data:', error);
         }
