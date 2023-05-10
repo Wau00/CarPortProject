@@ -35,6 +35,7 @@ const GarageCard = ({ car }) => {
                 try {
                     await deleteDoc(carDocRef);
                     console.log('Car deleted successfully!');
+                    Alert.alert("Deleted Successfully");
                 } catch (error) {
                     console.error('Error deleting car:', error);
                 }
