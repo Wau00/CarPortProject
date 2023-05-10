@@ -55,7 +55,6 @@ export default function SignupForm() {
         const strength = evaluatePasswordStrength(text);
         setPasswordStrength(strength);
     };
-
     const handleSignup = async () => {
         if (firstName && lastName && phoneNumber && email && password && repeatPassword) {
             if (password === repeatPassword) {
@@ -170,16 +169,29 @@ export default function SignupForm() {
                                 />
                             </TouchableOpacity>
                         </View>
+
                         <Text style={styles.subtitle}>Repeat password</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Password"
-                            onChangeText={text => setPasswordd(text)}
-                            value={repeatPassword}
-                            secureTextEntry
-                            returnKeyType="done"
-                            onSubmitEditing={() => console.log('Info submitted')}
-                        />
+                        <View style={styles.passwordInputContainer}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Password"
+                                onChangeText={(text) => {
+                                    setPasswordd(text);
+                                }}
+                                value={repeatPassword}
+                                secureTextEntry={!showPassword}
+                                returnKeyType="done"
+                                onSubmitEditing={() => console.log('Info submitted')}
+                            />
+
+                            <TouchableOpacity onPress={toggleShowPassword} style={{ position: "absolute", right: 12, top: 15 }}>
+                                <MaterialCommunityIcons
+                                    name={showPassword ? 'eye-off' : 'eye'}
+                                    size={24}
+                                    color="#333"
+                                />
+                            </TouchableOpacity>
+                        </View>
                         <View>
                             <Button
                                 buttonStyle={styles.buttonStyle}
