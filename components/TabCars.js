@@ -45,14 +45,6 @@ export default function TabCars() {
 
 
     const [isVisible, setIsVisible] = useState(true);
-    // useEffect(() => {
-    //     const toyotaCar = cars.find(car => car.brand === 'Toyota');
-    //     if (toyotaCar) {
-    //       setIsVisible(true);
-    //     } else {
-    //       setIsVisible(false);
-    //     }
-    //   }, [cars]);
     const btnVisible = () => {
         setIsVisible(false);
         setSeconds(1 * 5);
@@ -85,32 +77,38 @@ export default function TabCars() {
 
     return (
         <>
-            <Tab
-                value={index}
-                onChange={(e) => setIndex(e)}
-                indicatorStyle={{
-                    backgroundColor: '#737373',
-                    height: 1,
-                    padding: 4,
-                }}
-                style={styles.tabStyle}
-            >
-                {buttonTitles.length > 0 ? (
-                    buttonTitles.map((title, index) => (
+
+            {buttonTitles.length > 0 ? (
+                <Tab
+                    value={index}
+                    onChange={(e) => setIndex(e)}
+                    indicatorStyle={{
+                        backgroundColor: '#737373',
+                        height: 1,
+                        padding: 4,
+                    }}
+                    style={styles.tabStyle}
+                >
+                    {buttonTitles.map((title, index) => (
                         <Tab.Item
                             key={index}
                             title={title}
                             titleStyle={styles.button}
-                        // icon={{ name: 'timer', type: 'ionicon', color: 'white' }}
                         />
-                    ))
-                ) : (
-                    <View style={styles.container}>
-                        <Text style={styles.text}>Let's start by adding a car!</Text>
-                        <Button buttonStyle={styles.buttonStyle} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
-                    </View>
-                )}
-            </Tab >
+                    ))}
+                </Tab>
+            ) : (
+                <View style={styles.containerPrev}>
+                    <Text style={styles.textPrev}>Let's start by adding a car!</Text>
+                    <Button
+                        buttonStyle={styles.buttonStylePrev}
+                        title="Add a Car"
+                        onPress={() => navigation.navigate('Add')}
+                    />
+                </View>
+            )}
+
+
             <TabView value={index} onChange={setIndex} animationType="spring" >
                 {cars.map((props, index) => (
                     <TabView.Item key={index} style={styles.card}>
@@ -208,6 +206,11 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 20,
     },
+    containerPrev: {
+        flex: 1,
+        margin: 30,
+        textAlign: 'left'
+    },
     buttonContainer: {
         alignItems: 'center',
         marginBottom: 20,
@@ -268,6 +271,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
     },
+    textPrev: {
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
     button: {
         color: 'white',
         backgroundColor: '#737373',
@@ -279,6 +288,11 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: '#EA580C',
         borderRadius: 5,
+    },
+    buttonStylePrev: {
+        backgroundColor: '#EA580C',
+        borderRadius: 5,
+        margin: 15,
     },
     buttonStyleSec: {
         backgroundColor: 'grey',

@@ -63,9 +63,7 @@ const Home = () => {
         <View style={styles.container}>
             {data.map(data => <HomeInfo key={data.id} {...data} />)}
             <Text>{data.firstName}</Text>
-            <Text style={styles.promptText}> Select your car </Text>
             <TabCars />
-            <Button buttonStyle={styles.buttonStyle} title='Add a Car' onPress={() => navigation.navigate('Add')}></Button>
         </View>
     )
 }
