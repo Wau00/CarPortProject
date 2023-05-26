@@ -278,10 +278,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     button: {
+        borderRadius: 5,
         color: 'white',
         backgroundColor: '#737373',
         width: 150,
-        height: 50,
+        height: 40,
         alignItems: 'center',
         justifyContent: 'center',
     },

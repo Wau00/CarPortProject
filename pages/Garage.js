@@ -32,8 +32,16 @@ const Garage = () => {
         <ScrollView>
             <View style={styles.container}>
                 <Text style={styles.title}>Garage</Text>
+
                 {cars.length > 0 ? (
-                    cars.map((car) => <GarageCard key={car.id} car={car} />)
+                    <>
+                        <Button
+                            buttonStyle={styles.buttonStyle}
+                            title="Add a Car"
+                            onPress={() => navigation.navigate('Add')}
+                        />
+                        {cars.map((car) => <GarageCard key={car.id} car={car} />)}
+                    </>
                 ) : (
                     <View style={styles.container}>
                         <Text style={styles.text}>Let's start by adding a car!</Text>
@@ -43,10 +51,9 @@ const Garage = () => {
                             onPress={() => navigation.navigate('Add')}
                         />
                     </View>
-
-
                 )}
             </View>
+
         </ScrollView>
     );
 };
