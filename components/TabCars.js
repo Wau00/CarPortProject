@@ -73,6 +73,37 @@ export default function TabCars() {
         return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
+    const sendSMS = async (props) => {
+        Alert.alert(
+            'Confirm',
+            `Are you sure you want to send an SMS with the tag number ${props.tagNumber}?`,
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                    onPress: () => console.log('SMS sending cancelled.'),
+                },
+                {
+                    text: 'OK',
+                    onPress: async () => {
+                        console.log(props.tagNumber);
+                        try {
+                            const isAvailable = await SMS.isAvailableAsync();
+                            if (isAvailable) {
+                                const { result } = await SMS.sendSMSAsync(['4696622739'], props.tagNumber);
+                                console.log(result);
+                                btnVisible();
+                            } else {
+                                console.log('SMS is not available on this device.');
+                            }
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    },
+                },
+            ]
+        );
+    };
 
 
     return (
@@ -114,7 +145,7 @@ export default function TabCars() {
                     <TabView.Item key={index} style={styles.card}>
                         <PagerView style={styles.pagerView} initialPage={0}>
                             <ImageBackground style={styles.image}
-                                source={{ uri: `https://cdn.imagin.studio/getImage?customer=uswalteralonso-underwoodcompany&make=${props.make}&modelFamily=${props.model}&angle=23` }}
+                                source={{ uri: `https://cdn.imagin.studio/getImage?customer=img&make=${props.make}&modelFamily=${props.model}&angle=23` }}
                             >
                                 <View style={styles.container}>
                                     <View style={styles.buttonContainer}>
@@ -122,49 +153,26 @@ export default function TabCars() {
                                             <Button
                                                 title="Request this car"
                                                 buttonStyle={styles.buttonStyle}
-                                                onPress={() => {
-                                                    Alert.alert(
-                                                        'Confirm',
-                                                        `Are you sure you want to send an SMS with the tag number ${props.tagNumber}?`,
-                                                        [
-                                                            {
-                                                                text: 'Cancel',
-                                                                style: 'cancel',
-                                                                onPress: () => console.log('SMS sending cancelled.'),
-                                                            },
-                                                            {
-                                                                text: 'OK',
-                                                                onPress: async () => {
-                                                                    console.log(props.tagNumber);
-                                                                    try {
-                                                                        const isAvailable = await SMS.isAvailableAsync();
-                                                                        if (isAvailable) {
-                                                                            const { result } = await SMS.sendSMSAsync(
-                                                                                ['4696622739'],
-                                                                                props.tagNumber // message body
-                                                                            );
-                                                                            console.log(result);
-                                                                            btnVisible();
-                                                                        } else {
-                                                                            console.log('SMS is not available on this device.');
-                                                                        }
-                                                                    } catch (error) {
-                                                                        console.log(error);
-                                                                    }
-                                                                },
-                                                            },
-                                                        ]
-                                                    );
-                                                }}
+                                                onPress={() => sendSMS(props)}
                                             />
                                         ) : (
                                             <View>
-                                                <Text style={{ fontSize: 22, textAlign: 'center', }}>{formatTime(seconds)}</Text>
-                                                <Button
-                                                    title="This car has been requested"
-                                                    buttonStyle={styles.buttonStyleSec}
-                                                    onPress={() => setIsVisible(true)}
-                                                />
+                                                {props.make === "Bmw" ? (
+                                                    <View>
+                                                        <Text style={{ fontSize: 22, textAlign: 'center' }}>{formatTime(seconds)}</Text>
+                                                        <Button
+                                                            title="This car has been requested"
+                                                            buttonStyle={styles.buttonStyleSec}
+                                                            onPress={() => setIsVisible(true)}
+                                                        />
+                                                    </View>
+                                                ) : (
+                                                    <Button
+                                                        title="Request this car"
+                                                        buttonStyle={styles.buttonStyle}
+                                                        onPress={() => sendSMS(props)}
+                                                    />
+                                                )}
                                             </View>
                                         )}
                                     </View>
